@@ -1,0 +1,35 @@
+# Publica a pasta prototipo/ no GitHub Pages a cada push na main.
+# Endereço: https://herondsx.github.io/Projeto-Automacao-de-manufatura/
+name: Publicar protótipo no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'prototipo/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: prototipo
+      - id: deploy
+        uses: actions/deploy-pages@v5
