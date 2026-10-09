@@ -366,6 +366,12 @@
       corpo.innerHTML = `<div class="faixa-aviso"><span>Erro ao montar esta tela: ${esc(err.message)}</span></div>`;
     }
     atualizarTrilho();
+    /* no celular o trilho vira uma faixa única: traz o passo atual para o meio */
+    const cur = $('#trilho [aria-current="page"]');
+    if (cur && matchMedia('(max-width:820px)').matches) requestAnimationFrame(() => {
+      const tr = $('#trilho'), a = cur.getBoundingClientRect(), t = tr.getBoundingClientRect();
+      tr.scrollLeft += a.left + a.width / 2 - (t.left + tr.clientWidth / 2);
+    });
     document.title = `${def.rotulo ? def.rotulo + ' · ' : ''}${def.titulo} · Automação de Engenharia`;
     if (!mesmo) { scrollTo(0, 0); main.focus({ preventScroll: true }); }
   };

@@ -275,8 +275,10 @@ dialog.janela p{margin:0;color:var(--suave);font-size:14px}
 @media (max-width:900px){.boas-vindas{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:820px){
   .app{grid-template-columns:minmax(0,1fr)}
-  .trilho{position:static;height:auto;border-right:0;border-bottom:1px solid var(--linha);padding:12px 16px;overflow:visible}
-  .passos{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .trilho{position:static;height:auto;border-right:0;border-bottom:1px solid var(--linha);padding:10px 16px;flex-direction:row;flex-wrap:nowrap;align-items:center;gap:4px;overflow-x:auto;scrollbar-width:thin}
+  .trilho .marca{flex:none;font-size:16px;margin-right:8px}
+  .trilho .marca small{display:none}
+  .passos{flex-direction:row;flex:none}
   .passo{width:auto;white-space:nowrap;flex:none}
   .grupo,.legenda-st,.progresso-geral{display:none}
   .barra-app{padding-inline:16px}
