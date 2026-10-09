@@ -1,0 +1,10 @@
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+*.vbs text eol=crlf
+*.CATScript text eol=crlf
+*.bas text eol=crlf
+*.png binary
+*.jpg binary
+*.svg text

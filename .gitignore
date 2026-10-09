@@ -1,0 +1,53 @@
+# ------------------------------------------------------------------
+# Dados de cliente e arquivos de CAD NUNCA entram neste repositório
+# (o repositório é público). Guarde-os no servidor do projeto.
+# ------------------------------------------------------------------
+*.CATPart
+*.CATProduct
+*.CATDrawing
+*.CATProcess
+*.CATAnalysis
+*.cgr
+*.3dxml
+*.prt
+*.asm
+*.jt
+*.stp
+*.step
+*.igs
+*.iges
+*.dwg
+*.dxf
+*.stkl
+*.7z
+*.zip
+*.rar
+# planilhas e PDFs de cliente (modelos próprios vão em templates/, liberados abaixo)
+*.xlsx
+*.xlsm
+*.xls
+*.pdf
+!templates/**
+!docs/**/*.pdf
+
+# mídia pesada (vídeos de demonstração ficam fora do git)
+*.mp4
+*.mov
+*.avi
+
+# sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+~$*
+
+# ferramentas
+.vs/
+.vscode/
+.idea/
+bin/
+obj/
+node_modules/
+__pycache__/
+*.pyc
+*.log
