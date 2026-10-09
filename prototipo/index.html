@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Automação de Engenharia · Protótipo de telas</title>
+<meta name="description" content="Protótipo navegável do programa de automação de engenharia (Processo, Simulação e Mecânica) que conversa com o CATIA e o NX.">
+<meta name="theme-color" content="#0A1424">
+<link rel="icon" href="assets/img/icone.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+<div class="app">
+  <nav class="trilho" id="trilho" aria-label="Passos do projeto"></nav>
+
+  <div class="principal">
+    <div class="barra-app">
+      <div class="chip-projeto" id="chip-projeto" data-tip="Projeto aberto e cliente. O cliente define o padrão: nomes de arquivo, pastas, tempos, normas e catálogo." data-tip-titulo="Projeto aberto"></div>
+      <div class="grupo-bt">
+        <div class="seg mini" id="seg-cad" role="group" aria-label="Com qual CAD o programa conversa">
+          <button data-cad="catia" aria-pressed="true" data-tip="O programa comanda o CATIA V5 aberto na máquina (automação COM). Os textos e comandos das telas usam os termos do CATIA.">CATIA V5</button>
+          <button data-cad="nx" aria-pressed="false" data-tip="O programa comanda o Siemens NX aberto na máquina (NXOpen). Os textos e comandos das telas usam os termos do NX.">NX</button>
+        </div>
+        <button class="conexao on" id="conexao" data-tip="Mostra se o programa está conversando com o CAD aberto. Clique para simular o CAD fechado: os botões de CAD passam a recusar o comando.">CATIA conectado</button>
+        <button class="btn mini" id="bt-console" data-tip="Abre o console com cada comando que o programa mandaria para o CAD: a chamada da API e a macro antiga que serve de base.">Console do CAD <span class="badge" hidden>0</span></button>
+        <button class="btn mini leve" id="bt-prog" aria-pressed="true" data-tip="Mostra ou esconde a coluna &quot;Para o programador&quot;, com as regras e os dados de cada tela.">Para o programador</button>
+        <div class="menu">
+          <button class="btn mini leve" id="bt-menu" aria-haspopup="true" aria-expanded="false">Projeto ▾</button>
+          <div class="menu-lista" id="menu-lista" hidden>
+            <button data-m="exportar">Exportar projeto (.json)<small>Baixa tudo o que foi preenchido</small></button>
+            <button data-m="importar">Importar projeto (.json)<small>Abre um arquivo exportado antes</small></button>
+            <hr>
+            <button data-m="tour">Como usar este protótipo<small>Volta para o painel inicial</small></button>
+            <button data-m="reiniciar">Reiniciar demonstração<small>Apaga o que foi preenchido neste navegador</small></button>
+          </div>
+        </div>
+        <input type="file" id="arquivo-importar" accept="application/json,.json" hidden>
+      </div>
+    </div>
+    <main id="conteudo" tabindex="-1"></main>
+  </div>
+</div>
+
+<aside class="console" id="console" hidden aria-label="Console do CAD">
+  <header><div><h2>Console do CAD</h2><p>O que o programa mandaria para o CAD. Nada é executado de verdade.</p></div>
+    <div class="barra"><button class="btn mini leve" id="console-limpar">Limpar</button><button class="btn mini" id="console-fechar" aria-label="Fechar console">Fechar</button></div></header>
+  <ol id="console-lista"></ol>
+</aside>
+<div id="balao" hidden></div>
+<div id="aviso" role="status" aria-live="polite" hidden></div>
+
+<noscript><p style="padding:24px">Este protótipo precisa de JavaScript ligado.</p></noscript>
+
+<script src="assets/js/core.js"></script>
+<script src="assets/js/dados.js"></script>
+<!-- telas: cada arquivo registra uma tela com AE.tela({...}) -->
+<script src="assets/js/telas/painel.js"></script>
+<script src="assets/js/telas/fluxo.js"></script>
+<script src="assets/js/telas/inicio.js"></script>
+<script src="assets/js/telas/separacao.js"></script>
+<script src="assets/js/telas/tempos.js"></script>
+<script src="assets/js/telas/ergonomia.js"></script>
+<script src="assets/js/telas/estacoes.js"></script>
+<script src="assets/js/telas/equipamentos.js"></script>
+<script src="assets/js/telas/capacidade.js"></script>
+<script src="assets/js/telas/layout.js"></script>
+<script src="assets/js/telas/simulacao.js"></script>
+<script src="assets/js/telas/fixacao.js"></script>
+<script src="assets/js/telas/unidades.js"></script>
+<script src="assets/js/telas/conferir.js"></script>
+<script src="assets/js/telas/saidas.js"></script>
+<script src="assets/js/telas/outras.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

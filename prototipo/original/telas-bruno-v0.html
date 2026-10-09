@@ -1,0 +1,1281 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Telas do Programa de Engenharia</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: casca de aplicativo. Trilho de passos à esquerda, área de trabalho no centro,
+   coluna "Para o programador" à direita. No celular tudo empilha em uma coluna. */
+:root{
+  color-scheme:dark;
+  --fundo:#0A1424; --painel:#101E36; --painel2:#16294A; --linha:#243A62; --linha2:#32507F;
+  --texto:#E7EEF9; --suave:#94A8C6; --fraco:#6B80A3;
+  --acao:#F2B636; --acao-texto:#1A1405; --azul:#5AA9FF;
+  --ok:#3DD68C; --aviso:#F2B636; --erro:#FF6B6B; --roxo:#B592FF; --laranja:#FF9F5A; --l-sim:#4FD1C5;
+  --f-titulo:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-texto:"Barlow","Segoe UI",Arial,sans-serif;
+  --f-dado:"IBM Plex Mono",Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--fundo);color:var(--texto);font-family:var(--f-texto);font-size:15px;line-height:1.45}
+button,input,select{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--f-titulo);font-weight:600;letter-spacing:.02em;margin:0;text-wrap:balance}
+.app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100%}
+
+/* trilho de passos */
+.trilho{background:var(--painel);border-right:1px solid var(--linha);padding:18px 14px;display:flex;flex-direction:column;gap:14px}
+.marca{font-family:var(--f-titulo);font-size:21px;font-weight:700;letter-spacing:.04em;line-height:1.1}
+.marca small{display:block;font-family:var(--f-texto);font-size:12px;font-weight:400;color:var(--suave);letter-spacing:0;margin-top:4px}
+.grupo{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--fraco);margin-top:6px}
+.passos{display:flex;flex-direction:column;gap:2px}
+.passo{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:6px;padding:7px 8px;cursor:pointer;color:var(--suave)}
+.passo .n{font-family:var(--f-dado);font-size:12px;width:22px;flex:none;color:var(--fraco)}
+.passo:hover{background:var(--painel2);color:var(--texto)}
+.passo[aria-current="true"]{background:var(--painel2);border-color:var(--linha2);color:var(--texto)}
+.passo[aria-current="true"] .n{color:var(--acao)}
+.passo[disabled]{cursor:default;opacity:.5}
+.passo[disabled]:hover{background:none;color:var(--suave)}
+
+/* área principal */
+.principal{min-width:0;display:flex;flex-direction:column}
+.topo{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid var(--linha);background:var(--painel)}
+.topo h1{font-size:26px}
+.topo p{margin:2px 0 0;color:var(--suave);font-size:14px}
+.dica-geral{font-size:13px;color:var(--suave);border:1px dashed var(--linha2);border-radius:6px;padding:6px 10px}
+.tela{padding-block:20px;padding-inline:22px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start}
+.coluna{display:flex;flex-direction:column;gap:18px;min-width:0}
+.bloco{background:var(--painel);border:1px solid var(--linha);border-radius:8px;padding:16px;min-width:0}
+.bloco h2{font-size:19px;margin-bottom:4px}
+.bloco .sub{color:var(--suave);font-size:13.5px;margin:0 0 14px}
+.campos{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px 14px}
+label.campo{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--suave)}
+input[type=text],input[type=number],select{background:var(--fundo);border:1px solid var(--linha2);border-radius:6px;padding:8px 10px;color:var(--texto);width:100%;min-width:0}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--azul);outline-offset:1px}
+.seg{display:flex;border:1px solid var(--linha2);border-radius:6px;overflow:hidden}
+.seg button{flex:1;background:var(--fundo);border:0;padding:8px 6px;cursor:pointer;color:var(--suave);font-size:14px}
+.seg button+button{border-left:1px solid var(--linha2)}
+.seg button[aria-pressed="true"]{background:var(--painel2);color:var(--texto);font-weight:600;box-shadow:inset 0 -2px 0 var(--acao)}
+
+.btn{display:inline-flex;align-items:center;gap:7px;background:var(--painel2);border:1px solid var(--linha2);border-radius:6px;padding:8px 13px;cursor:pointer;font-weight:500;white-space:nowrap}
+.btn:hover{border-color:var(--azul)}
+.btn.primario{background:var(--acao);border-color:var(--acao);color:var(--acao-texto);font-weight:700}
+.btn.primario:hover{filter:brightness(1.08)}
+.btn.leve{background:none}
+.btn.mini{padding:4px 9px;font-size:13px}
+.barra{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.barra.fim{justify-content:flex-end}
+
+.rolagem{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--fraco);font-weight:500;text-align:left;padding:6px 8px;border-bottom:1px solid var(--linha2);white-space:nowrap}
+td{padding:7px 8px;border-bottom:1px solid var(--linha);vertical-align:middle}
+#tab-pontos td{white-space:nowrap}
+td.num,th.num{text-align:right;font-family:var(--f-dado);font-variant-numeric:tabular-nums}
+td input{padding:5px 7px}
+td input.curto{width:84px;text-align:right;font-family:var(--f-dado)}
+.pilula{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:2px 10px;font-size:12.5px;font-weight:600;border:1px solid;white-space:nowrap}
+.pilula::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.pilula.ok{color:var(--ok)} .pilula.aviso{color:var(--aviso)} .pilula.erro{color:var(--erro)} .pilula.neutro{color:var(--suave)}
+.exemplo{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--fraco);border:1px solid var(--linha2);border-radius:4px;padding:1px 6px;margin-left:8px;vertical-align:middle;font-family:var(--f-texto);font-weight:500}
+
+/* pastas */
+.arvore{font-family:var(--f-dado);font-size:13px;display:flex;flex-direction:column;gap:3px}
+.arvore div{display:flex;flex-wrap:wrap;gap:4px 10px;justify-content:space-between;padding:5px 8px;border-radius:5px;background:var(--fundo);border:1px solid var(--linha)}
+.arvore span{color:var(--suave);font-family:var(--f-texto);font-size:12.5px}
+.arvore .filho{margin-left:22px}
+
+/* coluna do programador */
+.prog{background:#0D1A30;border:1px solid var(--linha);border-radius:8px;padding:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 14px)}
+.prog h2{font-size:17px;color:var(--azul);margin-bottom:8px}
+.prog h3{font-size:12px;font-family:var(--f-texto);text-transform:uppercase;letter-spacing:.1em;color:var(--fraco);margin:14px 0 6px}
+.prog ul{margin:0;padding-left:17px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;color:var(--suave)}
+.prog code{font-family:var(--f-dado);font-size:12px;color:var(--texto);background:var(--painel2);padding:1px 5px;border-radius:3px;word-break:break-word}
+
+/* separação do produto */
+.abas{display:flex;flex-wrap:wrap;gap:6px}
+.abas button{background:var(--fundo);border:1px solid var(--linha2);border-radius:99px;padding:6px 13px;cursor:pointer;color:var(--suave);font-size:14px}
+.abas button[aria-selected="true"]{background:var(--painel2);color:var(--texto);border-color:var(--acao);font-weight:600}
+.instrucao{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;background:var(--painel2);border:1px solid var(--linha2);border-left:4px solid var(--acao);border-radius:6px;padding:12px 14px}
+.instrucao strong{display:block;font-family:var(--f-titulo);font-size:18px;letter-spacing:.02em}
+.instrucao span{color:var(--suave);font-size:14px}
+.duas{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px}
+.cad{background:#070F1C;border:1px solid var(--linha);border-radius:6px;position:relative}
+.cad svg{display:block;width:100%;height:auto}
+.cad .rotulo{position:absolute;left:10px;top:8px;font-family:var(--f-dado);font-size:11.5px;color:var(--fraco)}
+.peca{fill:#1B3156;stroke:#3A5C92;stroke-width:1.5;cursor:pointer;transition:fill .12s}
+.peca:hover{fill:#24406E}
+.peca.sel{fill:#3A3413;stroke:var(--acao);stroke-width:2.5}
+.peca.by{fill:#16202F;stroke:#55657F;stroke-dasharray:5 4}
+.peca.feita{fill:#12344A;stroke:var(--azul)}
+.cad text{font-family:var(--f-dado);font-size:13px;fill:var(--suave);pointer-events:none}
+.pt{fill:var(--ok);pointer-events:none} .pt.alerta{fill:var(--aviso)} .pt.fora{fill:var(--fraco)}
+.lista{display:flex;flex-direction:column;gap:8px}
+.sub-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--fundo);border:1px solid var(--linha);border-radius:6px;padding:8px 10px}
+.sub-item .st{font-family:var(--f-dado);font-size:15px;color:var(--acao);min-width:52px}
+.sub-item small{color:var(--suave);display:block;font-size:12.5px}
+.vazio{color:var(--fraco);font-size:13.5px;border:1px dashed var(--linha2);border-radius:6px;padding:12px;text-align:center}
+.checagem{display:flex;flex-direction:column;gap:6px}
+.checagem div{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;font-size:14px}
+.registro{font-family:var(--f-dado);font-size:12.5px;color:var(--suave);display:flex;flex-direction:column;gap:3px;margin-top:8px}
+
+/* balão de explicação e aviso de execução */
+#balao{position:fixed;z-index:50;max-width:290px;background:#F5F8FD;color:#0B1628;border-radius:7px;padding:9px 12px;font-size:13.5px;line-height:1.4;box-shadow:0 8px 28px rgba(0,0,0,.55);pointer-events:none}
+#balao b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#46618F;margin-bottom:3px}
+#aviso{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);transform:translateX(-50%);z-index:40;background:var(--painel2);border:1px solid var(--acao);border-radius:8px;padding:10px 16px;font-size:14px;max-width:min(520px,calc(100% - 32px));box-shadow:0 8px 28px rgba(0,0,0,.5)}
+
+/* fluxo geral */
+.faixas{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--suave)}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:4px;padding:2px 8px;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;border:1px solid}
+.chip.proc{color:var(--azul)} .chip.sim{color:var(--l-sim)} .chip.mec{color:var(--acao)} .chip.rev{color:var(--roxo)}
+.fase{font-family:var(--f-titulo);font-size:20px;letter-spacing:.03em;margin:8px 0 2px;color:var(--texto)}
+.fluxo{display:flex;flex-direction:column;gap:0}
+.no{background:var(--painel);border:1px solid var(--linha);border-left:4px solid var(--linha2);border-radius:8px;min-width:0}
+.no.proc{border-left-color:var(--azul)} .no.sim{border-left-color:var(--l-sim)} .no.mec{border-left-color:var(--acao)}
+.no.ativo{outline:2px solid var(--acao);outline-offset:2px}
+.no summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:11px 14px}
+.no summary::-webkit-details-marker{display:none}
+.no summary .num{font-family:var(--f-dado);color:var(--fraco);min-width:30px}
+.no summary strong{font-family:var(--f-titulo);font-size:18px;font-weight:600;letter-spacing:.02em;flex:1;min-width:160px}
+.no .corpo{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;padding:4px 14px 14px}
+.no h4{margin:0 0 5px;font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--fraco);font-weight:500;font-family:var(--f-texto)}
+.no ul{margin:0;padding-left:16px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.no li small{color:var(--fraco)}
+.no .falta li{color:var(--aviso)} .no .falta li span{color:var(--suave)}
+.no p{margin:0;font-size:14px;color:var(--suave)}
+.liga{display:flex;align-items:center;gap:10px;padding:3px 0 3px 22px;color:var(--fraco);font-size:12.5px;min-height:22px}
+.liga::before{content:"";width:2px;height:22px;background:var(--linha2)}
+.liga b{color:var(--suave);font-weight:500}
+
+/* revisão do plano de fixação */
+.leitura{display:flex;flex-direction:column;gap:5px;font-size:14px}
+.leitura div{display:flex;gap:10px;align-items:baseline}
+.leitura code{font-family:var(--f-dado);font-size:13px;color:var(--acao);min-width:74px}
+.contagem{display:flex;flex-wrap:wrap;gap:8px}
+.marc{cursor:pointer;stroke:#070F1C;stroke-width:2}
+.marc.sel{stroke:var(--texto);stroke-width:3}
+.s-ok{fill:var(--ok);color:var(--ok)} .s-des{fill:var(--erro);color:var(--erro)} .s-apo{fill:var(--azul);color:var(--azul)}
+.s-add{fill:var(--acao);color:var(--acao)} .s-red{fill:var(--laranja);color:var(--laranja)} .s-alt{fill:var(--roxo);color:var(--roxo)} .s-pen{fill:var(--fraco);color:var(--suave)}
+#tab-fix td{white-space:nowrap}
+#tab-fix tr.sel td{background:var(--painel2)}
+#tab-fix select{padding:4px 6px;min-width:132px}
+#tab-fix input.coment{min-width:170px}
+#tab-fix td.num{font-size:13px}
+.leitura.legenda code{min-width:112px}
+.cobertura{display:flex;flex-direction:column;gap:6px}
+.cobertura div{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.6fr) auto;gap:10px;align-items:center;font-size:14px;padding:6px 8px;background:var(--fundo);border:1px solid var(--linha);border-radius:6px}
+.cobertura span{color:var(--suave);font-size:13px}
+
+/* unidades (M2 a M4) */
+.un-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.un{background:var(--fundo);border:1px solid var(--linha);border-radius:8px;padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.un:hover{border-color:var(--azul)} .un.sel{border-color:var(--acao);box-shadow:inset 0 0 0 1px var(--acao)}
+.un h3{font-family:var(--f-titulo);font-size:17px;font-weight:600;margin:0;display:flex;justify-content:space-between;gap:8px}
+.un small{color:var(--suave);font-size:12.5px}
+.un .pts{font-family:var(--f-dado);font-size:12px;color:var(--acao)}
+.pilha{display:flex;flex-direction:column;gap:4px}
+.pilha div{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--fundo);border:1px solid var(--linha);border-radius:6px;padding:7px 10px;font-size:14px}
+.pilha .n{font-family:var(--f-dado);color:var(--fraco);font-size:12px}
+.pilha .cat{font-family:var(--f-dado);font-size:12px;color:var(--suave);white-space:nowrap}
+.pilha div.troc{border-color:var(--roxo)} .pilha div.troc .cat{color:var(--roxo)}
+.pilha select{padding:3px 6px;font-size:13px;max-width:190px}
+.calc{font-family:var(--f-dado);font-size:13px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;color:var(--suave)}
+.calc b{color:var(--texto);font-weight:500;text-align:right}
+.alerta{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start;background:var(--fundo);border:1px solid var(--linha);border-left:4px solid var(--aviso);border-radius:6px;padding:10px 12px}
+.alerta.trava{border-left-color:var(--erro)} .alerta.ok{border-left-color:var(--ok);opacity:.7}
+.alerta .tipo{font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:600;padding-top:3px;min-width:58px}
+.alerta.trava .tipo{color:var(--erro)} .alerta:not(.trava):not(.ok) .tipo{color:var(--aviso)} .alerta.ok .tipo{color:var(--ok)}
+.alerta p{margin:0;font-size:14px} .alerta small{display:block;color:var(--suave);font-size:12.5px;margin-top:3px}
+.saidas{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.saida{background:var(--fundo);border:1px solid var(--linha);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.saida h3{font-family:var(--f-titulo);font-size:16px;font-weight:600;margin:0}
+.saida small{color:var(--suave);font-size:12.5px;flex:1}
+.saida.feita{border-color:var(--ok)}
+.unid-cad{background:#070F1C;border:1px solid var(--linha);border-radius:6px;padding:8px}
+.unid-cad svg{display:block;width:100%;height:auto}
+.unid-cad text{font-family:var(--f-dado);font-size:11px;fill:var(--suave)}
+
+@media (max-width:1080px){.tela{grid-template-columns:minmax(0,1fr)}.prog{position:static}}
+@media (max-width:760px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .trilho{border-right:0;border-bottom:1px solid var(--linha);padding:12px 16px}
+  .passos{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .passo{width:auto;white-space:nowrap;flex:none}
+  .grupo{display:none}
+  .topo,.tela{padding-inline:16px}
+  .duas{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="app">
+  <nav class="trilho" aria-label="Passos do projeto">
+    <div class="marca">AUTOMAÇÃO DE ENGENHARIA<small>Modelo de telas para aprovação</small></div>
+    <div class="grupo">Visão geral</div>
+    <div class="passos">
+      <button class="passo" data-tela="fluxo" data-tip="Abre o fluxograma do projeto inteiro: o que entra em cada passo, o que fazer quando a informação não chega, e onde há revisão com o cliente."><span class="n">≡</span>Fluxo do projeto</button>
+    </div>
+    <div class="grupo">Processo</div>
+    <div class="passos" id="passos">
+      <button class="passo" data-tela="inicio" aria-current="true" data-tip="Abre a tela onde o projeto é criado: cliente, volumes, turnos, layout de partida e pastas."><span class="n">0</span>Novo projeto</button>
+      <button class="passo" data-tela="separacao" data-tip="Abre a tela onde o produto é dividido em subdivisões e os pontos de solda são ligados às peças."><span class="n">1</span>Separação do produto</button>
+      <button class="passo" disabled data-tip="Próxima tela a ser feita: tabela de tempos padrão do projeto."><span class="n">2</span>Tempos padrão</button>
+      <button class="passo" disabled data-tip="A fazer: posto do operador, ergonomia e acessos de manutenção."><span class="n">3</span>Operador e ergonomia</button>
+      <button class="passo" disabled data-tip="A fazer: quantas estações e quantos robôs o ciclo exige."><span class="n">4</span>Necessidade de estações</button>
+      <button class="passo" disabled data-tip="A fazer: lista de equipamentos por estação."><span class="n">5</span>Equipamentos</button>
+      <button class="passo" disabled data-tip="A fazer: quantos pontos cada robô e cada estação pode soldar, e o macro ciclo. Quem escolhe os pontos é a Simulação."><span class="n">6</span>Capacidade e macro ciclo</button>
+      <button class="passo" disabled data-tip="A fazer: layout, grades, calhas, painéis e segurança."><span class="n">7</span>Layout</button>
+    </div>
+    <div class="grupo">Depois</div>
+    <div class="passos">
+      <button class="passo" disabled data-tip="A fazer: acessos, distribuição dos pontos, nuvem de pinças e validação."><span class="n">S</span>Simulação</button>
+      <button class="passo" data-tela="fixacao" data-tip="Abre a tela onde o plano de fixação do cliente é revisado ponto a ponto, antes de modelar o dispositivo."><span class="n">M1</span>Revisão do plano de fixação</button>
+      <button class="passo" data-tela="unidades" data-tip="Abre a tela onde o programa agrupa os pontos aprovados e monta cada unidade: torre, cantoneiras, calços, apoio, pisador e grampo."><span class="n">M2</span>Montar unidades</button>
+      <button class="passo" data-tela="conferir" data-tip="Abre a lista de conferências que o programa fez sozinho: acesso de parafuso, cálculo do grampo, colisão com pinças, distâncias mínimas."><span class="n">M3</span>Conferir alertas</button>
+      <button class="passo" data-tela="saidas" data-tip="Abre a tela que gera os desenhos, as listas e as folhas de cálculo das unidades, na pasta certa do projeto."><span class="n">M4</span>Desenhos e listas</button>
+      <button class="passo" disabled data-tip="A fazer: piloto com pino retrátil, basculante, unidade linear, garra."><span class="n">M</span>Mecânica (outras unidades)</button>
+    </div>
+  </nav>
+
+  <div class="principal">
+    <!-- ===================== TELA 0 ===================== -->
+    <section id="tela-inicio">
+      <header class="topo">
+        <div><h1>Passo 0 · Novo projeto</h1><p>Tudo o que o programa precisa saber antes de qualquer cálculo.</p></div>
+        <div class="dica-geral">Passe o mouse em qualquer botão para ver o que ele executa.</div>
+      </header>
+      <div class="tela">
+        <div class="coluna">
+          <div class="bloco">
+            <h2>Dados do projeto</h2>
+            <p class="sub">O cliente escolhido carrega o padrão dele: nomes de arquivo, pastas, tempos e normas.</p>
+            <div class="campos">
+              <label class="campo">Cliente (montadora)
+                <select id="cliente"><option>Volkswagen</option><option>General Motors</option><option>Stellantis</option><option>Peugeot</option><option>Ford</option><option>Outro</option></select></label>
+              <label class="campo">Nome do projeto<input type="text" id="projeto" value="Linha de exemplo"></label>
+              <label class="campo">Turnos por dia<input type="number" id="turnos" value="2" min="1" max="4"></label>
+              <label class="campo">Horas por turno<input type="number" id="horas" value="7.54" step="0.01" min="1"></label>
+              <label class="campo">Disponibilidade da linha (%)<input type="number" id="disp" value="85" min="50" max="100"></label>
+              <div class="campo" style="font-size:12.5px;color:var(--suave);display:flex;flex-direction:column;gap:5px">Tipo de linha
+                <div class="seg" id="seg-linha">
+                  <button aria-pressed="true" data-tip="Linha nova: nenhum equipamento existente. O programa propõe tudo do zero.">Nova</button>
+                  <button aria-pressed="false" data-tip="Retooling: a linha já existe. O programa pede o levantamento da linha atual e marca as pinças como existentes.">Retooling</button>
+                </div></div>
+            </div>
+            <h2 style="margin-top:18px">Layout de partida</h2>
+            <p class="sub">De onde o programa começa a desenhar a linha.</p>
+            <div class="barra">
+              <div class="seg" id="seg-layout" style="flex:1;min-width:240px">
+                <button aria-pressed="false" data-tip="Usa o layout da linha existente como base.">Retooling</button>
+                <button aria-pressed="true" data-tip="Usa o layout de vendas (codesigner) como base. O programa valida se ele atende o ciclo.">Codesigner</button>
+                <button aria-pressed="false" data-tip="Começa sem layout. O programa sugere estações e posições ao longo do projeto.">Do zero</button>
+              </div>
+              <button class="btn" data-tip="Abre a janela de arquivos para escolher o DWG do layout. O programa lê os blocos e as posições dos equipamentos." data-run="Layout carregado: 6 estações e 9 robôs encontrados no DWG.">Carregar layout</button>
+            </div>
+          </div>
+
+          <div class="bloco">
+            <h2>Modelos de carro na linha <span class="exemplo">dados de exemplo</span></h2>
+            <p class="sub">Cada modelo tem o seu volume. O tempo de ciclo é calculado por modelo.</p>
+            <div class="rolagem"><table id="tab-modelos">
+              <thead><tr><th>Modelo</th><th class="num">Carros/hora</th><th class="num">Carros/dia</th><th class="num">Ciclo calculado</th><th class="num">Ciclo adotado</th><th>Conferência</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table></div>
+            <div class="barra" style="margin-top:12px">
+              <button class="btn" id="add-modelo" data-tip="Acrescenta uma linha na tabela para mais um modelo de carro.">Adicionar modelo</button>
+              <span style="color:var(--suave);font-size:13px">Ciclo calculado = (3600 ÷ carros por hora) × disponibilidade</span>
+            </div>
+          </div>
+
+          <div class="bloco">
+            <h2>Pastas do projeto</h2>
+            <p class="sub">Cada documento tem pasta certa. O usuário nunca escolhe onde salvar.</p>
+            <div class="barra" style="margin-bottom:12px">
+              <button class="btn" data-tip="Aplica a estrutura de pastas padrão do programa a este projeto." data-run="Estrutura padrão aplicada: 13 pastas criadas.">Usar padrão do programa</button>
+              <button class="btn" data-tip="Abre o editor para montar a estrutura deste cliente. Ela fica salva para os próximos projetos do mesmo cliente." data-run="Editor de estrutura aberto para o cliente selecionado.">Criar estrutura do cliente</button>
+              <button class="btn leve" data-tip="Cria uma pasta nova no projeto. Pode ser usada a qualquer momento, não só no início." data-run="Nova pasta criada.">Nova pasta</button>
+              <button class="btn leve" data-tip="Pega as subpastas que você montou em uma estação e cria as mesmas em todas as outras." data-run="Modelo da estação 10 replicado para as outras 5 estações.">Replicar para todas as estações</button>
+            </div>
+            <div class="arvore">
+              <div>14.2.1_Layout <span>Layout, grades, calhas, armários, fundação</span></div>
+              <div>14.2.3_MTM <span>Estudo do operador</span></div>
+              <div>14.2.3.1_Ciclograma <span>Macro ciclo e ciclograma</span></div>
+              <div>14.2.10_Plano de Pontos <span>Um arquivo por estação</span></div>
+              <div class="filho">ST10 <span>modelo que você montou</span></div>
+              <div class="filho">ST20 … ST60 <span>replicadas pelo programa</span></div>
+              <div>14.2.14_Plano de Cola <span>Um arquivo por aplicador</span></div>
+              <div>14.2.23_Folha de Instrução <span>Uma folha por estação e por robô</span></div>
+              <div>14.6_Ergonomia <span>Apresentação para aprovação</span></div>
+            </div>
+          </div>
+
+          <div class="barra fim">
+            <button class="btn leve" data-tip="Guarda o que foi preenchido sem criar o projeto. Dá para voltar depois." data-run="Rascunho salvo.">Salvar rascunho</button>
+            <button class="btn primario" id="criar" data-tip="Confere se todos os campos estão preenchidos e se os volumes fecham. Se estiver tudo certo, cria o projeto, cria as pastas e abre o Passo 1.">Criar projeto e avançar</button>
+          </div>
+        </div>
+
+        <aside class="prog">
+          <h2>Para o programador</h2>
+          <h3>O que esta tela guarda</h3>
+          <ul>
+            <li>Um registro de <code>projeto</code> com cliente, tipo de linha, turnos, horas e disponibilidade.</li>
+            <li>Uma lista de <code>modelos</code>, cada um com volume e ciclo.</li>
+            <li>A <code>estrutura de pastas</code> e a pasta de destino de cada tipo de documento.</li>
+          </ul>
+          <h3>Regras</h3>
+          <ul>
+            <li>Conferência: carros/hora × turnos × horas tem de bater com carros/dia.</li>
+            <li>O ciclo adotado pode ser menor que o calculado, mas pede um motivo.</li>
+            <li>O projeto só é criado sem nenhuma conferência em vermelho.</li>
+            <li>O padrão do cliente (tempos, normas, nomes) é carregado, nunca fixo no código.</li>
+          </ul>
+          <h3>Macros de base</h3>
+          <ul><li>Nenhuma. Esta tela é só cadastro e cálculo.</li></ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===================== TELA 1 ===================== -->
+    <section id="tela-separacao" hidden>
+      <header class="topo">
+        <div><h1>Passo 1 · Separação do produto</h1><p>Dividir o produto em subdivisões e ligar cada ponto de solda às suas peças.</p></div>
+        <span class="pilula ok" data-tip="Mostra se o programa está conversando com o CATIA aberto na máquina. Sem conexão, os botões de CAD ficam bloqueados.">CATIA conectado</span>
+      </header>
+      <div class="tela">
+        <div class="coluna">
+          <div class="abas" role="tablist" id="abas">
+            <button aria-selected="true" data-aba="0" data-tip="Marcar os subconjuntos que já chegam soldados de fora (BY).">1.1 Indicar BY</button>
+            <button aria-selected="false" data-aba="1" data-tip="Selecionar no CAD as peças de cada subdivisão.">1.2 Separar o produto</button>
+            <button aria-selected="false" data-aba="2" data-tip="Ligar cada ponto de solda às chapas que ele une.">1.3 Pontos e chapas</button>
+            <button aria-selected="false" data-aba="3" data-tip="Dar número de estação a cada subdivisão.">1.4 Numerar estações</button>
+          </div>
+
+          <div class="instrucao">
+            <div><strong id="ins-titulo">No CATIA: clique nas peças que já chegam soldadas</strong><span id="ins-texto">Depois volte aqui e use "Marcar como BY". Neste modelo, clique nas peças do desenho abaixo.</span></div>
+            <button class="btn" id="ler" data-tip="Pergunta ao CATIA quais peças estão selecionadas agora e mostra a lista aqui. É a mesma leitura que as macros antigas fazem." data-run="Seleção lida do CATIA.">Ler seleção do CAD</button>
+          </div>
+
+          <div class="duas">
+            <div class="bloco">
+              <h2>Produto <span class="exemplo">desenho de exemplo</span></h2>
+              <p class="sub">Peças selecionadas ficam em amarelo. BY fica tracejado.</p>
+              <div class="cad"><span class="rotulo">vista do CAD</span>
+                <svg viewBox="0 0 520 330" role="img" aria-label="Produto de exemplo com seis peças">
+                  <rect width="520" height="330" fill="#070F1C"/>
+                  <g id="pecas">
+                    <path class="peca" data-p="A" d="M40 120 L250 96 L250 190 L40 214 Z"/>
+                    <path class="peca" data-p="B" d="M258 95 L480 70 L480 164 L258 189 Z"/>
+                    <path class="peca" data-p="C" d="M60 222 L250 198 L250 262 L60 286 Z"/>
+                    <path class="peca" data-p="D" d="M258 197 L460 173 L460 237 L258 261 Z"/>
+                    <path class="peca" data-p="E" d="M120 52 L230 40 L230 88 L120 100 Z"/>
+                    <path class="peca" data-p="F" d="M300 36 L410 24 L410 62 L300 74 Z"/>
+                  </g>
+                  <text x="135" y="162">A</text><text x="362" y="136">B</text><text x="148" y="250">C</text><text x="352" y="224">D</text><text x="168" y="76">E</text><text x="348" y="55">F</text>
+                  <g id="pontos"></g>
+                </svg>
+              </div>
+              <div class="barra" style="margin-top:12px" id="acoes-cad">
+                <button class="btn" id="b-by" data-tip="Marca as peças selecionadas como BY. Elas viram uma peça única, e os pontos de dentro delas saem do cálculo de ciclo, mas continuam no 3D.">Marcar como BY</button>
+                <button class="btn primario" id="b-sub" data-tip="Cria um Product no CATIA com as peças selecionadas, move as peças para dentro dele e separa junto os pontos que pertencem a esse conjunto.">Criar subdivisão</button>
+                <button class="btn leve" id="b-limpar" data-tip="Tira a seleção de todas as peças.">Limpar seleção</button>
+              </div>
+            </div>
+
+            <div class="bloco">
+              <h2>Subdivisões criadas</h2>
+              <p class="sub">Cada uma vira um Product no CATIA e uma estação provisória.</p>
+              <div class="lista" id="subs"></div>
+              <div class="barra" style="margin-top:12px">
+                <button class="btn" id="b-renum" data-tip="Troca o número de uma estação. O programa atualiza o número em todos os arquivos e documentos que o usam e guarda o registro da troca.">Trocar número da estação</button>
+              </div>
+              <div class="registro" id="registro"></div>
+            </div>
+          </div>
+
+          <div class="bloco">
+            <h2>Pontos de solda <span class="exemplo">dados de exemplo</span></h2>
+            <p class="sub">O programa conta as chapas pela geometria e compara com o que o cliente informou.</p>
+            <div class="barra" style="margin-bottom:12px">
+              <button class="btn" data-tip="Lê a lista de pontos. Aceita três origens: planilha Excel do cliente, pontos dentro do 3D, ou desenho 2D do CATIA. As três viram a mesma tabela, com as coordenadas arredondadas para milímetro inteiro." data-run="7 pontos importados da planilha do cliente. Coordenadas arredondadas para milímetro inteiro.">Importar lista de pontos</button>
+              <button class="btn" id="b-rel" data-tip="Para cada ponto, olha no 3D quais chapas estão sobrepostas naquela posição, conta quantas são e liga o ponto a essas peças.">Relacionar pontos às peças</button>
+              <button class="btn leve" data-tip="Abre a linha do ponto para edição: mover de subdivisão, corrigir o número de chapas ou marcar como BY. A correção fica registrada." data-run="Edição liberada. Clique no ponto que quer corrigir.">Corrigir um ponto</button>
+            </div>
+            <div class="rolagem"><table>
+              <thead><tr><th>Ponto</th><th class="num">X</th><th class="num">Y</th><th class="num">Z</th><th>Peças</th><th class="num">Chapas (3D)</th><th class="num">Chapas (cliente)</th><th>Situação</th></tr></thead>
+              <tbody id="tab-pontos"></tbody>
+            </table></div>
+          </div>
+
+          <div class="bloco">
+            <h2>Checagem</h2>
+            <p class="sub">O passo só é concluído com tudo em verde.</p>
+            <div class="checagem" id="checagem"></div>
+            <div class="barra fim" style="margin-top:14px">
+              <button class="btn" id="b-conf" data-tip="Roda as quatro verificações de novo com os dados atuais da tela.">Conferir de novo</button>
+              <button class="btn primario" id="b-avancar" data-tip="Só libera com a checagem toda em verde. Grava a separação e abre o Passo 2, tempos padrão.">Concluir e avançar</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="prog">
+          <h2>Para o programador</h2>
+          <h3>Como a tela conversa com o CAD</h3>
+          <ul>
+            <li>O programa não substitui o CATIA. Ele comanda o CATIA que já está aberto.</li>
+            <li>Todo passo de CAD tem três partes: instrução na tela, leitura da seleção, execução automática.</li>
+          </ul>
+          <h3>Regras</h3>
+          <ul>
+            <li>A estação tem um <code>id</code> interno fixo. O número que o usuário vê é só um atributo, e pode mudar.</li>
+            <li>Numeração provisória de 10 em 10.</li>
+            <li>Mais de 2 chapas no ponto gera alerta com a quantidade.</li>
+            <li>Coordenadas sempre em milímetro inteiro. As do cliente são arredondadas ao importar.</li>
+            <li>Ponto de BY fica fora do ciclo, mas continua no 3D.</li>
+            <li>Tudo o que o programa propõe pode ser editado, e a edição fica registrada.</li>
+          </ul>
+          <h3>Macros de base</h3>
+          <ul>
+            <li><code>Part_2_Product</code> e <code>CreateAllCatPart</code>: criar o Product.</li>
+            <li><code>RENAME_STATION_FIAT</code>: renomear por estação.</li>
+            <li><code>Cordenadas</code> e <code>WritePoints2Excel</code>: ler coordenadas.</li>
+            <li><code>960_WeldSpotsAddPart</code>: ligar ponto a peça (só referência).</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===================== FLUXO ===================== -->
+    <section id="tela-fluxo" hidden>
+      <header class="topo">
+        <div><h1>Fluxo do projeto</h1><p>O caminho inteiro: o que entra em cada passo, o que o programa faz quando a informação não chega, e onde há revisão.</p></div>
+        <div class="barra">
+          <button class="btn" id="fx-todos" data-tip="Abre ou fecha todos os passos de uma vez, para ler o fluxo inteiro ou só os títulos.">Abrir tudo</button>
+          <button class="btn primario" id="fx-prox" data-tip="Anda pelo fluxo um passo por vez: fecha o passo atual, abre o próximo e leva a tela até ele.">Percorrer o fluxo</button>
+        </div>
+      </header>
+      <div class="tela">
+        <div class="coluna">
+          <div class="bloco">
+            <h2>Como ler</h2>
+            <p class="sub">Cada caixa é um passo. Clique para abrir. A cor da borda mostra de quem é o passo.</p>
+            <div class="faixas">
+              <span><span class="chip proc">Processo</span> planeja a linha</span>
+              <span><span class="chip sim">Simulação</span> prova que funciona</span>
+              <span><span class="chip mec">Mecânica</span> projeta dispositivos e garras</span>
+              <span><span class="chip rev">Revisão</span> alguém de fora precisa aprovar</span>
+            </div>
+          </div>
+
+          <div class="bloco">
+            <h2>Os laços do fluxo</h2>
+            <p class="sub">O projeto não anda em linha reta. Ele vai e volta entre as três áreas até fechar.</p>
+            <div class="cad" style="background:none;border:0"><svg viewBox="0 0 720 210" role="img" aria-label="Processo envia para Simulação, que envia para Mecânica, que devolve para Simulação, que devolve para Processo">
+              <defs><marker id="seta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#94A8C6"/></marker></defs>
+              <g fill="#101E36" stroke-width="2"><rect x="10" y="70" width="170" height="70" rx="8" stroke="#5AA9FF"/><rect x="275" y="70" width="170" height="70" rx="8" stroke="#4FD1C5"/><rect x="540" y="70" width="170" height="70" rx="8" stroke="#F2B636"/></g>
+              <g style="font-family:var(--f-titulo);font-size:22px;fill:#E7EEF9" text-anchor="middle"><text x="95" y="113">PROCESSO</text><text x="360" y="113">SIMULAÇÃO</text><text x="625" y="113">MECÂNICA</text></g>
+              <g fill="none" stroke="#94A8C6" stroke-width="2" marker-end="url(#seta)"><path d="M120 68 C150 20 300 20 335 66"/><path d="M385 68 C420 20 570 20 600 66"/><path d="M600 142 C570 190 420 190 385 144"/><path d="M335 142 C300 190 150 190 120 144"/></g>
+              <g style="font-size:15px;fill:#F2B636" text-anchor="middle"><text x="228" y="26">1</text><text x="493" y="26">2</text><text x="493" y="198">3</text><text x="228" y="198">4</text></g>
+            </svg></div>
+            <div class="cobertura">
+              <div><b style="font-weight:600">1 · Processo → Simulação</b><span>Produto separado, ergonomia, posição do produto e tempo macro (macro ciclo)</span><span class="pilula neutro">ida</span></div>
+              <div><b style="font-weight:600">2 · Simulação → Mecânica</b><span>Acessos, distribuição dos pontos e a nuvem de pinças, para a Mecânica modelar o 3D</span><span class="pilula neutro">ida</span></div>
+              <div><b style="font-weight:600">3 · Mecânica → Simulação</b><span>Dispositivos e garras concluídos, para validar</span><span class="pilula aviso">volta</span></div>
+              <div><b style="font-weight:600">4 · Simulação → Processo</b><span>Tudo validado. O Processo faz os desenhos construtivos e de instalação</span><span class="pilula aviso">volta</span></div>
+            </div>
+            <p class="sub" style="margin:12px 0 0">Se a validação achar problema (colisão, ponto sem acesso, ciclo que não fecha), o trabalho volta para a área anterior e o laço gira de novo. Cada giro gera uma versão, e o programa mostra o que mudou desde a anterior.</p>
+          </div>
+
+          <div id="fluxo"></div>
+
+          <div class="bloco">
+            <h2>Checagem de cobertura do produto <span class="exemplo">dados de exemplo</span></h2>
+            <p class="sub">Tudo o que o produto pede tem de existir no processo: o equipamento e a operação. O programa confere sozinho e mostra o que falta.</p>
+            <div class="cobertura" id="cobertura"></div>
+            <div class="barra" style="margin-top:12px">
+              <button class="btn" id="cob-conf" data-tip="Lê de novo o que o produto contém (pontos, cordões de cola, pinos, furos) e compara com a lista de equipamentos e com as operações de cada estação.">Conferir cobertura</button>
+              <button class="btn leve" id="cob-add" data-tip="Leva para a lista de equipamentos já com o item que falta proposto na estação onde a operação acontece.">Incluir o que falta</button>
+            </div>
+          </div>
+
+          <div class="bloco">
+            <h2>Quando chega uma revisão</h2>
+            <p class="sub">Nada é refeito do zero. O programa compara a versão nova com a anterior e mostra só o que mudou.</p>
+            <div class="cobertura" id="revisoes"></div>
+          </div>
+        </div>
+
+        <aside class="prog">
+          <h2>Para o programador</h2>
+          <h3>O fluxo é um grafo</h3>
+          <ul>
+            <li>Cada passo declara suas <code>entradas</code>, sua <code>saída</code> e de quais passos depende.</li>
+            <li>Toda saída tem estado: conceito (<code>C1</code>, <code>C2</code>…) ou final (<code>F1</code>).</li>
+            <li>Entrada que não chegou não trava o passo. Ele roda com o valor de reserva e a saída fica preliminar, marcada "para conferência".</li>
+            <li>Quando a entrada chega, o programa avisa quais passos precisam ser conferidos de novo.</li>
+          </ul>
+          <h3>Revisões</h3>
+          <ul>
+            <li>Todo arquivo, recebido ou gerado, tem <code>versão</code> e data.</li>
+            <li>Nome da versão: conceito é <code>C1</code>, <code>C2</code>, <code>C3</code>… Final é <code>F1</code>, <code>F2</code>… O ideal é existir só o <code>F1</code>.</li>
+            <li>Passar de C para F exige a aprovação registrada. Mudança depois do F1 cria F2 e pede o motivo.</li>
+            <li>Nova versão gera uma lista de diferenças: o que entrou, saiu e mudou de lugar.</li>
+            <li>Passo com revisão de fora só vira final com a aprovação registrada: quem aprovou e quando.</li>
+          </ul>
+          <h3>Cobertura do produto</h3>
+          <ul>
+            <li>Tabela <code>conteúdo do produto → equipamento + operação</code>, por projeto, e que aceita novas linhas.</li>
+            <li>Roda sozinha depois da capacidade por robô e a cada revisão do produto.</li>
+            <li>Item sem cobertura impede a liberação do processo.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===================== REVISÃO DO PLANO DE FIXAÇÃO ===================== -->
+    <section id="tela-fixacao" hidden>
+      <header class="topo">
+        <div><h1>Mecânica 1 · Revisão do plano de fixação</h1><p>Conferir, ponto por ponto, onde o dispositivo vai apoiar, prender e localizar a peça. Só depois disso se modela.</p></div>
+        <span class="pilula ok" data-tip="Mostra se o programa está conversando com o CAD aberto na máquina. Sem conexão, os botões de CAD ficam bloqueados.">CAD conectado</span>
+      </header>
+      <div class="tela">
+        <div class="coluna">
+          <div class="bloco">
+            <h2>Plano recebido</h2>
+            <p class="sub">Cada cliente escreve o plano de um jeito. O programa lê o nome do ponto e entende a função dele.</p>
+            <div class="campos">
+              <label class="campo">Cliente e tipo de plano
+                <select id="fx-cliente" data-tip="Troca a regra de leitura do nome dos pontos. A regra vem do padrão do cliente, não fica escrita no código.">
+                  <option value="vw">Volkswagen · RPS</option>
+                  <option value="st">Stellantis · pré-método</option>
+                  <option value="gm">General Motors · Datum</option>
+                </select></label>
+              <label class="campo">Estação<select id="fx-est"><option>ST10 · Geo</option><option>ST20 · Respot</option></select></label>
+              <label class="campo">Versão do plano<input type="text" id="fx-ver" value="C1 · recebida do cliente" readonly></label>
+            </div>
+            <h3 style="font-size:12px;font-family:var(--f-texto);text-transform:uppercase;letter-spacing:.1em;color:var(--fraco);margin:16px 0 8px">Como o programa lê o nome do ponto</h3>
+            <div class="leitura" id="fx-leitura"></div>
+            <div class="barra" style="margin-top:14px">
+              <button class="btn" data-tip="Abre o arquivo do plano de fixação enviado pelo cliente (planilha, desenho ou 3D) e monta a tabela de pontos abaixo." data-run="Plano importado: 8 pontos lidos.">Importar plano do cliente</button>
+              <button class="btn" data-tip="Lê os pontos de fixação que estão dentro do 3D do produto aberto no CAD: nome e coordenadas X, Y, Z." data-run="8 pontos lidos do 3D. Coordenadas conferem com o plano.">Ler pontos do 3D</button>
+              <button class="btn leve" id="fx-comp" data-tip="Compara esta versão do plano com a anterior e mostra só os pontos que entraram, saíram ou mudaram de coordenada." data-run="Esta é a primeira versão. Não há versão anterior para comparar.">Comparar com a versão anterior</button>
+            </div>
+          </div>
+
+          <div class="instrucao">
+            <div><strong>Revise cada ponto e escolha a situação</strong><span>Clique no ponto no desenho ou na linha da tabela. Tudo o que não for "OK" precisa de um comentário para o cliente.</span></div>
+            <button class="btn" id="fx-okall" data-tip="Marca como OK todos os pontos que ainda estão sem revisão. Os que você já marcou não mudam.">Marcar pendentes como OK</button>
+          </div>
+
+          <div class="duas">
+            <div class="bloco">
+              <h2>Peça com os pontos <span class="exemplo">desenho de exemplo</span></h2>
+              <p class="sub">A cor do ponto é a situação dele.</p>
+              <div class="cad"><span class="rotulo">vista do CAD</span>
+                <svg viewBox="0 0 520 330" role="img" aria-label="Peça de exemplo com os pontos de fixação">
+                  <rect width="520" height="330" fill="#070F1C"/>
+                  <path d="M40 90 L470 50 L485 230 L300 262 L60 286 Z" fill="#1B3156" stroke="#3A5C92" stroke-width="1.5"/>
+                  <path d="M150 130 L270 119 L274 178 L154 190 Z" fill="#070F1C" stroke="#3A5C92" stroke-width="1.2"/>
+                  <g id="fx-marcs"></g>
+                </svg>
+              </div>
+              <div class="contagem" id="fx-cont" style="margin-top:12px"></div>
+            </div>
+
+            <div class="bloco">
+              <h2>Ponto selecionado</h2>
+              <p class="sub">Os dados do ponto e, abaixo, o que significa cada situação.</p>
+              <div id="fx-det" class="vazio">Clique em um ponto.</div>
+              <div class="leitura legenda" style="margin-top:14px;font-size:13.5px">
+                <div><code class="s-ok">OK</code><span>Fica como o cliente pediu.</span></div>
+                <div><code class="s-des">Desconsiderar</code><span>Não será usado nesta estação.</span></div>
+                <div><code class="s-apo">Apenas apoio</code><span>Fica só o apoio, sem pisador.</span></div>
+                <div><code class="s-add">Adicionar</code><span>Ponto novo, que o plano não tinha.</span></div>
+                <div><code class="s-red">Redefinir</code><span>Muda a função do ponto.</span></div>
+                <div><code class="s-alt">Alt. coord.</code><span>Mesma função, em outra posição.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bloco">
+            <h2>Pontos do plano <span class="exemplo">dados de exemplo</span></h2>
+            <p class="sub">Uma linha por ponto. A situação e o comentário vão para o documento de retorno.</p>
+            <div class="barra" style="margin-bottom:12px">
+              <button class="btn" id="fx-add" data-tip="Pede para você clicar na peça, no CAD, onde quer o ponto. O programa lê a posição, arredonda para milímetro inteiro (nunca fica número quebrado), cria o ponto no 3D e a linha na tabela.">Adicionar ponto</button>
+              <button class="btn" id="fx-sug" data-tip="O programa propõe apoios seguindo quatro regras: perto dos pilotos, perto da solda (de preferência na junção das peças), no mínimo 3 apoios em cada plano, e centro de gravidade da peça dentro dos apoios. Você aceita ou descarta cada um.">Sugerir pontos</button>
+              <button class="btn leve" id="fx-rm" data-tip="Remove o ponto selecionado, se ele foi criado aqui. Ponto que veio do cliente não é apagado: use Desconsiderar.">Remover ponto criado</button>
+            </div>
+            <div class="rolagem"><table id="tab-fix">
+              <thead><tr><th>Ponto</th><th>Função lida</th><th class="num">X / Y / Z</th><th>Situação</th><th>Comentário para o cliente</th></tr></thead>
+              <tbody></tbody>
+            </table></div>
+          </div>
+
+          <div class="bloco">
+            <h2>Checagem e retorno ao cliente</h2>
+            <p class="sub">A modelagem do dispositivo só é liberada como final com a aprovação registrada. As linhas de alerta avisam, mas não travam.</p>
+            <div class="checagem" id="fx-check"></div>
+            <div class="barra fim" style="margin-top:14px">
+              <button class="btn" id="fx-doc" data-tip="Monta o documento de retorno no padrão do cliente: a imagem da peça com os pontos coloridos e a tabela com situação e comentário. Salva na pasta do projeto, como versão nova.">Gerar documento de retorno</button>
+              <button class="btn" id="fx-apr" data-tip="Registra que o cliente aprovou esta versão: quem aprovou e em que data. A partir daqui o plano vira final.">Registrar aprovação do cliente</button>
+              <button class="btn primario" id="fx-lib" data-tip="Envia os pontos aprovados para a modelagem. Cada ponto vira o pedido de uma unidade: apoio com pisador e grampo, apenas apoio, ou piloto.">Liberar para a modelagem</button>
+            </div>
+            <div class="registro" id="fx-reg"></div>
+          </div>
+        </div>
+
+        <aside class="prog">
+          <h2>Para o programador</h2>
+          <h3>O que esta tela guarda</h3>
+          <ul>
+            <li>Um <code>ponto de fixação</code> único por estação: nome, função, X, Y, Z, situação, comentário e origem (cliente ou criado aqui).</li>
+            <li>A <code>versão</code> do plano (C1, C2… e F1 quando aprovado) e o registro de cada mudança.</li>
+            <li>A <code>aprovação</code>: quem, quando, qual versão.</li>
+          </ul>
+          <h3>Regras</h3>
+          <ul>
+            <li>A leitura do nome é uma tabela por cliente. Cliente novo é uma tabela nova, sem mexer no código.</li>
+            <li>Toda coordenada é em milímetro inteiro, sem casa depois da vírgula. A que vem do cliente com decimal é arredondada na entrada, e o valor original fica guardado no registro. Vale para o programa todo.</li>
+            <li>Ponto novo nasce de um clique no CAD: o programa lê a posição, arredonda e cria o ponto.</li>
+            <li>Regras de apoio: perto dos pilotos; perto da solda, de preferência na junção das peças; mínimo de 3 por plano; centro de gravidade dentro dos apoios.</li>
+            <li>As quatro regras de apoio só geram alerta. Não travam nada: o usuário decide e segue.</li>
+            <li>Situação diferente de OK exige comentário.</li>
+            <li>Ponto do cliente nunca é apagado, só marcado.</li>
+            <li>Sem aprovação, a Mecânica pode modelar, mas tudo fica preliminar.</li>
+            <li>Cliente mandou versão nova: o programa compara e reabre só os pontos que mudaram.</li>
+            <li>O mesmo ciclo de revisão vale para o dispositivo pronto: o cliente revisa, devolve comentários e aprova.</li>
+          </ul>
+          <h3>O que sai daqui</h3>
+          <ul>
+            <li>Documento de retorno, no padrão do cliente.</li>
+            <li>Lista de unidades a modelar, uma por ponto aprovado.</li>
+          </ul>
+          <h3>Macros de base</h3>
+          <ul><li><code>Cordenadas</code> e <code>WritePoints2Excel</code>: ler nome e coordenadas dos pontos.</li></ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===================== M2 MONTAR UNIDADES ===================== -->
+    <section id="tela-unidades" hidden>
+      <header class="topo">
+        <div><h1>Mecânica 2 · Montar unidades</h1><p>O programa agrupa os pontos aprovados e monta cada unidade de catálogo. Você confere e troca o que quiser.</p></div>
+        <span class="pilula ok" data-tip="Mostra se o programa está conversando com o CAD aberto. Sem conexão, os botões que modelam ficam bloqueados.">CAD conectado</span>
+      </header>
+      <div class="tela">
+        <div class="coluna">
+          <div class="bloco">
+            <h2>Parâmetros deste projeto</h2>
+            <p class="sub">Vêm da tela Novo projeto e do padrão do cliente. Nada disto fica fixo no código.</p>
+            <div class="campos">
+              <label class="campo">Catálogo de peças<select id="un-cat" data-tip="GM e Ford usam NAAMS; os demais partem do padrão Comau. O usuário pode trocar."><option value="comau">Comau (padrão)</option><option value="naams">NAAMS (GM e Ford)</option></select></label>
+              <label class="campo">Tipo de torre Comau<select id="un-torre" data-tip="A cortada a maçarico é a mais recente (250 a 450 mm). Algumas plantas ainda usam a coluna antiga (100 a 500 mm)."><option>Cortada a maçarico · 250 a 450</option><option>Coluna antiga · 100 a 500</option></select></label>
+              <label class="campo">Espessura das peças<select id="un-esp" data-tip="20 mm é o padrão. Algumas montadoras usam 19 mm; muda só a espessura, pino Ø8 e M8 continuam."><option>20 mm</option><option>19 mm</option></select></label>
+              <label class="campo">Calço nominal<select id="un-calco" data-tip="5 mm é o mais comum. Há montadora que pede 8 ou 10 mm."><option>5 mm</option><option>8 mm</option><option>10 mm</option></select></label>
+              <label class="campo">Ângulo padrão do grampo<select id="un-ang" data-tip="Todo grampo nasce com este ângulo. Só muda onde o produto não entra e sai em linha reta; aí vira exceção, com o motivo."><option>105°</option><option>90°</option><option>120°</option></select></label>
+              <label class="campo">Fabricante do grampo<select id="un-fab" data-tip="Vem da lista de homologados do cliente. O programa tem a tabela de cálculo da Tünkers e da SMC; outro fabricante é calculado como Tünkers."><option>Tünkers</option><option>SMC</option><option>Outro (calcula como Tünkers)</option></select></label>
+              <label class="campo">Distância para agrupar apoios<input type="number" id="un-dist" value="120" data-tip="Apoios a até esta distância um do outro ficam na mesma unidade, com um grampo só."></label>
+            </div>
+          </div>
+
+          <div class="instrucao">
+            <div><strong>Os pontos aprovados viraram 4 unidades</strong><span id="un-ins">Clique em uma unidade para ver as peças. Troque o modelo ou uma peça; o programa refaz o resto.</span></div>
+            <button class="btn primario" id="un-montar" data-tip="Agrupa os pontos aprovados pela distância, escolhe o modelo de unidade da biblioteca e as peças de catálogo, cria tudo no CAD vinculado ao produto e roda as conferências." data-run="4 unidades montadas no CAD a partir de 8 pontos aprovados. 3 alertas gerados.">Montar unidades</button>
+          </div>
+
+          <div class="bloco">
+            <h2>Unidades desta estação <span class="exemplo">dados de exemplo</span></h2>
+            <p class="sub">Cada cartão é uma unidade. O número de sentidos de ajuste vem da inclinação do produto no ponto.</p>
+            <div class="un-grid" id="un-lista"></div>
+          </div>
+
+          <div class="duas">
+            <div class="bloco">
+              <h2 id="un-titulo">Unidade</h2>
+              <p class="sub">Peças de baixo para cima. Troque uma peça e o programa adapta as vizinhas.</p>
+              <div class="pilha" id="un-pilha"></div>
+              <div class="barra" style="margin-top:12px">
+                <button class="btn" id="un-modelo" data-tip="Abre a biblioteca de modelos de unidade (torres de apoio e pisador, 8 montagens de partida) e troca o modelo inteiro desta unidade." data-run="Biblioteca aberta: 8 modelos de torre de apoio e pisador.">Trocar modelo</button>
+                <button class="btn leve" id="un-refazer" data-tip="Refaz a unidade com as peças atuais: recria o 3D no CAD, mantém o vínculo com o produto e roda as conferências de novo.">Refazer no CAD</button>
+              </div>
+            </div>
+            <div class="bloco">
+              <h2>Esboço e cálculo do grampo</h2>
+              <p class="sub">O programa lê peso e centro de gravidade do 3D e confere contra a tabela do fabricante.</p>
+              <div class="unid-cad"><svg viewBox="0 0 300 230" role="img" aria-label="Esboço da unidade">
+                <rect width="300" height="230" fill="#070F1C"/>
+                <rect x="20" y="200" width="260" height="14" fill="#1B3156" stroke="#3A5C92"/>
+                <rect id="sk-torre" x="60" y="80" width="30" height="120" fill="#1B3156" stroke="#3A5C92"/>
+                <rect x="55" y="190" width="40" height="10" fill="#1B3156" stroke="#3A5C92"/>
+                <rect id="sk-cant" x="90" y="92" width="38" height="20" fill="#1B3156" stroke="#5AA9FF"/>
+                <rect id="sk-calco" x="128" y="96" width="5" height="12" fill="#F2B636"/>
+                <rect id="sk-apoio" x="133" y="94" width="40" height="16" fill="#1B3156" stroke="#3DD68C"/>
+                <path id="sk-prod" d="M120 90 Q170 86 220 92" stroke="#B592FF" stroke-width="2.5" fill="none"/>
+                <rect id="sk-grampo" x="150" y="118" width="46" height="60" rx="3" fill="#16294A" stroke="#4FD1C5"/>
+                <path id="sk-braco" d="M173 118 L173 82 L180 82" stroke="#4FD1C5" stroke-width="5" fill="none"/>
+                <rect x="166" y="76" width="30" height="8" fill="#1B3156" stroke="#3DD68C"/>
+                <text x="60" y="74">torre</text><text x="92" y="88">cantoneira</text><text x="134" y="124">apoio</text><text x="198" y="80">pisador</text><text x="200" y="150">grampo</text><text x="224" y="104">produto</text>
+              </svg></div>
+              <div class="calc" id="un-calc" style="margin-top:10px"></div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="prog">
+          <h2>Para o programador</h2>
+          <h3>O que esta tela guarda</h3>
+          <ul>
+            <li>Uma <code>unidade</code> por grupo de pontos: modelo, lista de peças (cada uma com origem: catálogo, construída, especial), sentidos de ajuste, grampo e resultado do cálculo.</li>
+            <li>Toda peça tem vínculo com o produto; produto novo refaz o split e avisa.</li>
+          </ul>
+          <h3>Regras</h3>
+          <ul>
+            <li>Agrupar apoios a até 120 mm. Um grampo leva todos.</li>
+            <li>Inclinação do produto abaixo de 10°: 1 sentido. A partir de 10°: 2 sentidos (cantoneira a mais). Piloto que apoia: 3.</li>
+            <li>Apoio: bruto de catálogo + 3 a 5 mm por lado usinado; corte na altura, espessura inteira; face de contato a no mínimo 25 mm da fixação.</li>
+            <li>Torre: altura de catálogo, ponto a no máximo 50 mm do topo; acima de 700 mm alerta; especial acima de 400 leva nervura.</li>
+            <li>Grampo: 63 em dispositivo; momento = peso × 9,81 × distância ≤ tabela do fabricante.</li>
+            <li>Tudo trocável; a troca fica registrada e o programa adapta as peças vizinhas.</li>
+          </ul>
+          <h3>Macros de base</h3>
+          <ul><li><code>Create_Clamping_area</code> (conceito: criar apoio e trimar); <code>INSERT_PART</code>, <code>naams.xla</code> (biblioteca NAAMS).</li></ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===================== M3 CONFERIR ALERTAS ===================== -->
+    <section id="tela-conferir" hidden>
+      <header class="topo">
+        <div><h1>Mecânica 3 · Conferir alertas</h1><p>Tudo o que o programa conferiu sozinho. Vermelho trava; amarelo avisa e você decide.</p></div>
+        <div class="barra">
+          <button class="btn" id="cf-rodar" data-tip="Roda de novo todas as conferências com o 3D atual: acesso de parafuso, cálculo do grampo, colisão com a nuvem de pinças, distâncias mínimas, entrada e saída do produto." data-run="Conferências refeitas: 1 trava, 2 avisos, 9 em ordem.">Conferir de novo</button>
+        </div>
+      </header>
+      <div class="tela">
+        <div class="coluna">
+          <div class="bloco">
+            <h2>Resumo</h2>
+            <div class="contagem" id="cf-cont"></div>
+          </div>
+          <div class="bloco">
+            <h2>Conferências <span class="exemplo">dados de exemplo</span></h2>
+            <p class="sub">Cada linha diz o que foi conferido, em qual unidade, e o que o programa propõe.</p>
+            <div class="lista" id="cf-lista"></div>
+          </div>
+          <div class="bloco">
+            <h2>Nuvem de pinças</h2>
+            <p class="sub">A colisão com as pinças só é conferida quando a Simulação entregou a nuvem.</p>
+            <div class="checagem">
+              <div><span>Nuvem de pinças desta estação</span><span class="pilula aviso" id="cf-nuvem" data-tip="Ainda não chegou. As unidades foram modeladas assim mesmo e estão marcadas para conferência. Quando a nuvem chegar, o programa confere e avisa onde há colisão.">Não recebida · unidades marcadas para conferência</span></div>
+            </div>
+            <div class="barra" style="margin-top:12px">
+              <button class="btn" id="cf-nuvem-btn" data-tip="Importa o JT da nuvem de pinças entregue pela Simulação e confere a colisão de cada unidade, com o grampo aberto e fechado.">Importar nuvem e conferir</button>
+            </div>
+          </div>
+          <div class="barra fim">
+            <button class="btn primario" id="cf-liberar" data-tip="Só libera sem nenhuma trava vermelha. Avisos amarelos podem ficar, mas aparecem na lista de exceções com o motivo que você escrever.">Liberar unidades para desenhos</button>
+          </div>
+        </div>
+
+        <aside class="prog">
+          <h2>Para o programador</h2>
+          <h3>Dois tipos</h3>
+          <ul>
+            <li><code>trava</code>: impede a liberação. Hoje: face de contato a menos de 25 mm da fixação; cálculo do grampo reprovado; sem acesso de parafuso por nenhum lado; colisão com pinça.</li>
+            <li><code>alerta</code>: só avisa. Hoje: torre acima de 700 mm; furo cego; ângulo fora do padrão; peça especial; nuvem de pinças não recebida; regras de apoio do plano de fixação; flecha da base variando no ciclo.</li>
+          </ul>
+          <h3>Acesso de parafuso</h3>
+          <ul>
+            <li>Atrás de cada cabeça: parafuso inteiro no início da rosca + chave Allen girando no mínimo 60° + 10 mm; nunca menos de 60 mm livres.</li>
+            <li>Sem acesso: inverter rosca e passante e testar de novo; continuou sem: trava.</li>
+          </ul>
+          <h3>Registro</h3>
+          <ul><li>Alerta aceito pelo usuário vira exceção com motivo e entra na lista de saídas.</li></ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===================== M4 DESENHOS E LISTAS ===================== -->
+    <section id="tela-saidas" hidden>
+      <header class="topo">
+        <div><h1>Mecânica 4 · Desenhos e listas</h1><p>Tudo é gerado do 3D, na pasta certa do projeto, com versão.</p></div>
+        <span class="pilula neutro" data-tip="Versão de conceito. Vira F1 quando o cliente aprovar o dispositivo (DR03).">Versão C2</span>
+      </header>
+      <div class="tela">
+        <div class="coluna">
+          <div class="bloco">
+            <h2>Saídas do módulo <span class="exemplo">dados de exemplo</span></h2>
+            <p class="sub">Clique em "Gerar" em uma, ou gere todas de uma vez.</p>
+            <div class="saidas" id="sd-lista"></div>
+            <div class="barra" style="margin-top:14px">
+              <button class="btn primario" id="sd-todas" data-tip="Gera todas as saídas em sequência, do 3D atual, e salva cada uma na sua pasta do projeto como versão nova.">Gerar todas</button>
+              <button class="btn leve" id="sd-abrir" data-tip="Abre a pasta do projeto onde as saídas desta estação foram salvas." data-run="Pasta 14.3_Mecânica/ST10 aberta.">Abrir pasta</button>
+            </div>
+          </div>
+          <div class="bloco">
+            <h2>Como o detalhe de cada peça sai</h2>
+            <p class="sub">Igual aos desenhos reais que servem de referência.</p>
+            <div class="leitura">
+              <div><code>Grade</code><span>Duas vistas, cada uma com as linhas da grade do carro que passam pela peça; a peça é cotada a partir delas.</span></div>
+              <div><code>Face</code><span>Nota "face matematizada para fresar", com o número da peça do produto, a data da revisão e a espessura da chapa.</span></div>
+              <div><code>Furos</code><span>Pinos H7 e parafusos, com tolerância: ±0,2 nos passantes, ±0,02 nos pinos. Furos de pino pintados.</span></div>
+              <div><code>Quadro</code><span>Posição, dispositivo, material e tratamento (da lista de materiais), bruto, acabamento por triângulos, escala, folha.</span></div>
+              <div><code>Simetria</code><span>Desenha-se um lado; o outro é espelhado, com número de dispositivo próprio.</span></div>
+            </div>
+          </div>
+          <div class="bloco">
+            <h2>Registro</h2>
+            <div class="registro" id="sd-reg"><span>Nenhuma saída gerada nesta versão.</span></div>
+          </div>
+        </div>
+
+        <aside class="prog">
+          <h2>Para o programador</h2>
+          <h3>Regras</h3>
+          <ul>
+            <li>Toda saída nasce do 3D; nada é desenhado à mão. Produto novo: as saídas ficam marcadas "desatualizadas".</li>
+            <li>Pasta de destino vem da estrutura do projeto; o usuário nunca escolhe onde salvar.</li>
+            <li>Bruto na lista: medida de catálogo com sobremetal, ou "BL espessura × largura × comprimento" para peça cortada.</li>
+            <li>Material e tratamento vêm da lista de materiais do projeto.</li>
+            <li>Versão C1, C2… no quadro de todas as folhas; F1 só com aprovação registrada.</li>
+          </ul>
+          <h3>Macros de base</h3>
+          <ul>
+            <li><code>09_Pomigliano_965_DraftingGen</code>, <code>10_Balloon</code>, <code>21_AUTO_ALL_VIEWS</code>: folhas, balões e vistas.</li>
+            <li><code>jlr_grid_100</code>: grade de coordenadas na vista.</li>
+            <li><code>Symmetry_Instance</code>, <code>Mirror_an_ZX_all</code>: lado simétrico.</li>
+            <li><code>conversao_corte_a_macarico</code>: folha de contornos.</li>
+            <li><code>LP_rev4</code>, <code>BOM_CATIA-LISTA-PREL</code>: lista de peças.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+  </div>
+</div>
+<div id="balao" hidden></div>
+<div id="aviso" hidden role="status"></div>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+
+/* ---------- balão ao passar o mouse ---------- */
+const balao=$('#balao');
+function mostraBalao(el){
+  balao.innerHTML='<b>O que executa</b>'+el.dataset.tip; balao.hidden=false;
+  const r=el.getBoundingClientRect(), b=balao.getBoundingClientRect();
+  let x=Math.min(Math.max(8,r.left),innerWidth-b.width-8);
+  let y=r.bottom+8; if(y+b.height>innerHeight-8) y=r.top-b.height-8;
+  balao.style.left=x+'px'; balao.style.top=Math.max(8,y)+'px';
+}
+document.addEventListener('mouseover',e=>{const el=e.target.closest('[data-tip]'); if(el) mostraBalao(el);});
+document.addEventListener('mouseout',e=>{if(e.target.closest('[data-tip]')) balao.hidden=true;});
+document.addEventListener('focusin',e=>{const el=e.target.closest('[data-tip]'); if(el) mostraBalao(el);});
+document.addEventListener('focusout',()=>balao.hidden=true);
+addEventListener('scroll',()=>balao.hidden=true,true);
+
+/* ---------- aviso do que foi executado ---------- */
+let tAviso; const aviso=$('#aviso');
+function avisa(t){aviso.textContent=t; aviso.hidden=false; clearTimeout(tAviso); tAviso=setTimeout(()=>aviso.hidden=true,3600);}
+document.addEventListener('click',e=>{const el=e.target.closest('[data-run]'); if(el) avisa(el.dataset.run);});
+
+/* ---------- troca de tela ---------- */
+function abre(nome){
+  $$('section[id^="tela-"]').forEach(s=>s.hidden=s.id!=='tela-'+nome);
+  $$('.trilho .passo').forEach(b=>b.setAttribute('aria-current',b.dataset.tela===nome));
+  scrollTo(0,0);
+}
+$$('.trilho .passo[data-tela]').forEach(b=>b.onclick=()=>abre(b.dataset.tela));
+$$('.seg').forEach(s=>s.addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return; $$('button',s).forEach(x=>x.setAttribute('aria-pressed',x===b));}));
+
+/* ---------- Passo 0: modelos ---------- */
+let modelos=[{nome:'Modelo A',jph:54,dia:814,adotado:54},{nome:'Modelo B',jph:4,dia:50,adotado:''}];
+const num=id=>parseFloat($('#'+id).value)||0;
+function desenhaModelos(){
+  const tb=$('#tab-modelos tbody'); tb.innerHTML='';
+  modelos.forEach((m,i)=>{
+    const ciclo=m.jph>0?3600/m.jph*num('disp')/100:0;
+    const calcDia=m.jph*num('turnos')*num('horas');
+    const fecha=Math.abs(calcDia-m.dia)<=Math.max(1,m.dia*0.01);
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><input type="text" id="m-nome-${i}" value="${m.nome}" aria-label="Nome do modelo"></td>
+      <td class="num"><input class="curto" type="number" id="m-jph-${i}" value="${m.jph}" aria-label="Carros por hora"></td>
+      <td class="num"><input class="curto" type="number" id="m-dia-${i}" value="${m.dia}" aria-label="Carros por dia"></td>
+      <td class="num">${ciclo?ciclo.toFixed(1)+' s':'—'}</td>
+      <td class="num"><input class="curto" type="number" id="m-ado-${i}" value="${m.adotado}" placeholder="${ciclo?ciclo.toFixed(1):''}" aria-label="Ciclo adotado" data-tip="Deixe em branco para usar o calculado. Se digitar um valor menor, o programa pede o motivo, por exemplo: esta linha precisa empurrar a seguinte."></td>
+      <td>${fecha?'<span class="pilula ok">Volumes fecham</span>':`<span class="pilula erro" data-tip="Com esses turnos e horas, ${m.jph} carros por hora dão ${calcDia.toFixed(0)} carros por dia, e não ${m.dia}. Corrija um dos dois valores.">Não fecha: ${calcDia.toFixed(0)}/dia</span>`}</td>
+      <td><button class="btn mini leve" data-rm="${i}" data-tip="Remove este modelo da linha.">Remover</button></td>`;
+    tb.appendChild(tr);
+  });
+}
+$('#tab-modelos').addEventListener('change',e=>{
+  const m=e.target.id.match(/^m-(nome|jph|dia|ado)-(\d+)$/); if(!m) return;
+  const k={nome:'nome',jph:'jph',dia:'dia',ado:'adotado'}[m[1]]; const v=e.target.value;
+  modelos[+m[2]][k]=k==='nome'?v:(v===''?'':parseFloat(v)); desenhaModelos();
+});
+$('#tab-modelos').addEventListener('click',e=>{const b=e.target.closest('[data-rm]'); if(b){modelos.splice(+b.dataset.rm,1); desenhaModelos();}});
+$('#add-modelo').onclick=()=>{modelos.push({nome:'Modelo '+String.fromCharCode(65+modelos.length),jph:30,dia:Math.round(30*num('turnos')*num('horas')),adotado:''}); desenhaModelos();};
+['turnos','horas','disp'].forEach(id=>$('#'+id).addEventListener('input',desenhaModelos));
+$('#criar').onclick=()=>{
+  const ruim=modelos.filter(m=>Math.abs(m.jph*num('turnos')*num('horas')-m.dia)>Math.max(1,m.dia*0.01));
+  if(ruim.length){avisa('Não foi possível criar: os volumes de "'+ruim[0].nome+'" não fecham. Corrija carros por hora ou carros por dia.');return;}
+  avisa('Projeto criado, pastas criadas. Abrindo o Passo 1.'); setTimeout(()=>abre('separacao'),900);
+};
+desenhaModelos();
+
+/* ---------- Passo 1: separação ---------- */
+const textos=[
+ ['No CATIA: clique nas peças que já chegam soldadas','Depois volte aqui e use "Marcar como BY". Neste modelo, clique nas peças do desenho abaixo.'],
+ ['No CATIA: selecione as peças de uma subdivisão','Depois use "Criar subdivisão". Repita até não sobrar nenhuma peça solta.'],
+ ['Confira os pontos que o programa ligou às peças','Use "Relacionar pontos às peças". Onde houver alerta, decida qual valor vale.'],
+ ['Confira os números das estações','O programa numerou de 10 em 10. Troque quando o número definitivo for definido.']];
+$$('#abas button').forEach(b=>b.onclick=()=>{
+  $$('#abas button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  const t=textos[+b.dataset.aba]; $('#ins-titulo').textContent=t[0]; $('#ins-texto').textContent=t[1];
+});
+let subs=[], registro=[], relacionado=false, proxId=1;
+const pontos=[
+ {n:'P0001_A_0100',x:142.1,y:85.3,z:688.3,pecas:'A + C',g:2,c:2,cx:150,cy:206},
+ {n:'P0001_A_0200',x:142.5,y:109.3,z:688.6,pecas:'A + C',g:2,c:2,cx:215,cy:198},
+ {n:'P0002_B_0100',x:102.9,y:113.3,z:539.7,pecas:'A + B',g:2,c:2,cx:254,cy:140},
+ {n:'P0003_C_0100',x:139.8,y:-57.3,z:524.0,pecas:'B + D',g:2,c:2,cx:330,cy:186},
+ {n:'P0003_C_0200',x:103.0,y:-59.6,z:539.2,pecas:'A + B + E',g:3,c:3,cx:240,cy:95},
+ {n:'P0004_D_0300',x:387.0,y:-676.5,z:630.9,pecas:'B + D',g:2,c:3,cx:420,cy:170},
+ {n:'P0005_E_0300',x:342.0,y:-616.1,z:600.4,pecas:'F (dentro do BY)',g:2,c:2,cx:355,cy:48,by:true}];
+function pecaEl(p){return $(`.peca[data-p="${p}"]`);}
+$('#pecas').addEventListener('click',e=>{const p=e.target.closest('.peca'); if(!p||p.classList.contains('feita')) return; p.classList.toggle('sel');});
+$('#b-limpar').onclick=()=>$$('.peca.sel').forEach(p=>p.classList.remove('sel'));
+$('#b-by').onclick=()=>{
+  const s=$$('.peca.sel'); if(!s.length){avisa('Selecione primeiro as peças que chegam soldadas.');return;}
+  s.forEach(p=>{p.classList.remove('sel');p.classList.add('by');});
+  avisa('Marcado como BY: '+s.map(p=>p.dataset.p).join(', ')+'. Os pontos de dentro saem do cálculo de ciclo.'); desenha();
+};
+$('#b-sub').onclick=()=>{
+  const s=$$('.peca.sel'); if(!s.length){avisa('Selecione no desenho as peças desta subdivisão.');return;}
+  const nomes=s.map(p=>p.dataset.p); s.forEach(p=>{p.classList.remove('sel');p.classList.add('feita');});
+  const st=(subs.length+1)*10; subs.push({id:proxId++,st,pecas:nomes});
+  avisa('Product criado no CATIA com as peças '+nomes.join(', ')+'. Estação provisória '+st+'.'); desenha();
+};
+$('#b-renum').onclick=()=>{
+  if(!subs.length){avisa('Crie uma subdivisão antes de trocar o número.');return;}
+  const s=subs[subs.length-1], antigo=s.st, novo=antigo+2300; s.st=novo;
+  registro.unshift(`ST${antigo} → ST${novo} · atualizado em 14 documentos`);
+  avisa('Estação '+antigo+' agora é '+novo+'. O número foi trocado em todos os documentos e a troca ficou registrada.'); desenha();
+};
+$('#b-rel').onclick=()=>{relacionado=true; avisa('Pontos ligados às peças pela geometria. 1 ponto de 3 chapas e 1 divergência com a lista do cliente.'); desenha();};
+$('#b-conf').onclick=()=>{desenha(); avisa('Checagem refeita.');};
+$('#b-avancar').onclick=()=>{avisa($$('#checagem .pilula.ok').length===4?'Separação gravada. A próxima tela (tempos padrão) ainda será feita.':'Ainda há itens pendentes na checagem. Resolva antes de avançar.');};
+function desenha(){
+  const L=$('#subs');
+  L.innerHTML=subs.length?subs.map(s=>`<div class="sub-item"><span class="st">ST${s.st}</span><div>Peças ${s.pecas.join(' + ')}<small>Product criado · id interno ${s.id}</small></div><span class="pilula ok">Criada</span></div>`).join(''):'<div class="vazio">Nenhuma subdivisão ainda. Selecione peças no desenho e use "Criar subdivisão".</div>';
+  $('#registro').innerHTML=registro.map(r=>'<span>'+r+'</span>').join('');
+  $('#tab-pontos').innerHTML=pontos.map(p=>{
+    let sit='<span class="pilula neutro">Aguardando</span>';
+    if(p.by&&pecaEl('F').classList.contains('by')) sit='<span class="pilula neutro" data-tip="Ponto que já vem soldado. Fica fora da distribuição e do ciclo, mas continua no 3D identificado como BY.">BY · fora do ciclo</span>';
+    else if(relacionado){ sit=p.g!==p.c?`<span class="pilula erro" data-tip="A geometria mostra ${p.g} chapas neste ponto, e a lista do cliente diz ${p.c}. O usuário decide qual valor vale.">Divergência</span>`:p.g>2?`<span class="pilula aviso" data-tip="O programa encontrou ${p.g} chapas sobrepostas neste ponto. Alerta informativo.">${p.g} chapas</span>`:'<span class="pilula ok">Conferido</span>'; }
+    return `<tr><td style="font-family:var(--f-dado);font-size:13px">${p.n}</td><td class="num">${Math.round(p.x)}</td><td class="num">${Math.round(p.y)}</td><td class="num">${Math.round(p.z)}</td><td>${relacionado||p.by?p.pecas:'—'}</td><td class="num">${relacionado?p.g:'—'}</td><td class="num">${p.c}</td><td>${sit}</td></tr>`;}).join('');
+  $('#pontos').innerHTML=pontos.map(p=>`<circle class="pt ${p.by?'fora':relacionado&&(p.g!==p.c||p.g>2)?'alerta':''}" cx="${p.cx}" cy="${p.cy}" r="5"/>`).join('');
+  const soltas=$$('.peca').filter(p=>!p.classList.contains('feita')&&!p.classList.contains('by')).length;
+  const div=pontos.filter(p=>relacionado&&p.g!==p.c).length;
+  const itens=[
+    ['Nenhuma peça ficou fora de uma subdivisão',soltas===0,soltas+' peça(s) solta(s)'],
+    ['Todo ponto está ligado a peças',relacionado,'Falta relacionar'],
+    ['Chapas informadas batem com a geometria',relacionado&&div===0,relacionado?div+' divergência(s)':'Falta relacionar'],
+    ['Toda subdivisão tem número de estação',subs.length>0,'Nenhuma subdivisão']];
+  $('#checagem').innerHTML=itens.map(i=>`<div><span>${i[0]}</span>${i[1]?'<span class="pilula ok">Certo</span>':'<span class="pilula aviso">'+i[2]+'</span>'}</div>`).join('');
+}
+desenha();
+
+/* ---------- Fluxo do projeto ---------- */
+/* cada passo: [divisão, número, título, entradas[[o quê, quem fornece]], se não receber[[situação, o que o programa faz]], saída, revisão] */
+const fases=[
+ ['A · Abertura',[
+  ['proc','0','Novo projeto',
+   [['Cliente, nome do projeto, linha nova ou retooling','Usuário'],['Carros por hora e por dia, de cada modelo','Cliente'],['Turnos, horas por turno, disponibilidade','Cliente'],['Layout de partida','Cliente ou vendas'],['Padrão do cliente: pastas, nomes, normas','Cadastro do cliente']],
+   [['Sem layout de partida','começa do zero e o programa sugere as estações'],['Cliente sem estrutura de pastas cadastrada','usa a estrutura padrão do programa'],['Volumes não fecham','não cria o projeto e mostra a conta']],
+   'Projeto criado, pastas criadas, tempo de ciclo por modelo.','']]],
+ ['B · Processo, primeira passada',[
+  ['proc','1','Separação do produto',
+   [['Produto em 3D','Cliente'],['Lista de pontos: planilha, 3D ou desenho 2D','Cliente'],['Número de chapas por ponto','Cliente'],['O que já chega soldado (BY)','Usuário']],
+   [['Sem planilha de pontos','lê os pontos direto do 3D ou do desenho 2D'],['Sem número de chapas','conta pela geometria e avisa onde há mais de 2'],['Sem número definitivo de estação','numera de 10 em 10 e troca depois, com registro']],
+   'Subdivisões (um Product cada) com os pontos ligados às peças.','Produto revisado pelo cliente reabre este passo.'],
+  ['proc','2','Tempos padrão',
+   [['Tabela de tempos do cliente','Cliente'],['Tempos do operador (MTM)','Usuário']],
+   [['Cliente não tem tabela','usa a tabela de referência do programa, editável por projeto'],['MTM não preenchido','o posto manual fica sem tempo e aparece como pendente']],
+   'Tabela de tempos do projeto.',''],
+  ['proc','3','Operador e ergonomia',
+   [['Modelo 3D do operador do projeto','Cliente'],['Posição do operador e lado da base','Usuário, no CAD']],
+   [['Projeto sem modelo de operador','usa o operador de referência, de 173 cm'],['Alcance em zona amarela ou vermelha','pergunta se pode ajustar a posição'],['Item de manutenção acima de 1800 mm','pede plataforma']],
+   'Postos manuais conferidos e apresentação de ergonomia.','Ergonomia é apresentada ao cliente para aprovação.'],
+  ['proc','4','Necessidade de estações',
+   [['Pontos de geometria','Usuário ou fabricante'],['Estações já definidas, se houver','Cliente ou vendas'],['Subdivisões e tempos','Passos 1 e 2']],
+   [['Pontos de geometria não definidos','usa o mínimo de 2 por junção'],['Sem estações definidas','o programa sugere a quantidade'],['Estações definidas não dão o ciclo','mostra as opções: mais robôs ou mais estações']],
+   'Quantidade de estações e de robôs, com a ordem de montagem.',''],
+  ['proc','5','Equipamentos',
+   [['Fornecedores homologados','Cliente'],['Peso das garras (payload)','Mecânica'],['Pinças existentes, no retooling','Levantamento da linha']],
+   [['Peso da garra ainda não existe','lista preliminar, confirmada quando a Mecânica devolver o payload'],['Sem lista de homologados','usa a biblioteca do programa e marca para conferir']],
+   'Lista de equipamentos por estação, preliminar.',''],
+  ['proc','6','Capacidade por robô e macro ciclo',
+   [['Tempo de ciclo de cada modelo','Passo 0'],['Estações, robôs e tempos padrão','Passos 2, 4 e 5']],
+   [['Equipamento ainda sem definição','calcula com o tempo padrão da tabela e marca como conceito'],['Não dá o ciclo','mostra as saídas: pinça estacionária, garra dupla, garra com pinça, mais um robô']],
+   'Quantos pontos cada robô e cada estação pode soldar, e o macro ciclo. O Processo diz a quantidade; quem escolhe quais pontos é a Simulação.',''],
+  ['proc','6.1','Cobertura do produto',
+   [['Tudo o que o produto contém: pontos, cola, pinos, furos, MIG','Passo 1'],['Lista de equipamentos e operações','Passos 5 e 6']],
+   [['Produto pede algo que não tem equipamento','aponta a estação e propõe o equipamento que falta'],['Tem o equipamento mas não tem a operação','aponta a operação que falta no macro ciclo']],
+   'Processo conferido: nada do produto ficou sem dono.','Roda de novo a cada revisão do produto.'],
+  ['proc','7','Layout',
+   [['Desenho do prédio e zero predial','Cliente'],['Posição dos robôs','Simulação'],['Padrão de grade e de painéis','Cliente'],['Equipamentos','Passo 5']],
+   [['Posições da Simulação ainda não vieram','desenha o layout preliminar e atualiza quando chegarem'],['Mangueira de cola acima de 12 m ou cabo fora de 7, 15 ou 20 m','avisa e pede para mover o equipamento'],['Distância da grade abaixo da norma','mostra a altura de grade que resolve']],
+   'Layout em DWG, com grades, painéis e plano de retirada de robô.','Layout é aprovado pelo cliente.'],
+  ['proc','8','Lista de segurança',
+   [['Layout','Passo 7'],['Postos manuais','Passo 3']],
+   [['Item da lista sem resposta','fica pendente e aparece no resumo']],
+   'Lista de boas práticas preenchida.','A análise de risco oficial é aprovada por outro departamento.']]],
+ ['C · Simulação, primeira rodada',[
+  ['sim','S0','Levantamento da linha existente',
+   [['Linha atual: robôs, pinças, programas','Cliente']],
+   [['Linha nova','este passo é pulado']],
+   'Relatório do estado da linha (só no retooling).',''],
+  ['sim','S1','Montar o ambiente',
+   [['Produto com os pontos, na posição definida','Processo, passos 1 e 3'],['Equipamentos e layout, conforme forem ficando prontos','Processo, passos 5 e 7'],['Biblioteca de robôs e pinças','Programa']],
+   [['Equipamentos ainda não definidos','começa só com o produto e vai inserindo os equipamentos conforme chegam'],['Equipamento fora da biblioteca','usuário carrega o 3D e ele passa a fazer parte da biblioteca'],['Mais pinças que o limite do PLC','divide em mais de um estudo']],
+   'Um estudo por PLC e zona, com tudo dentro da zona de segurança.','Cada equipamento novo ou revisado gera uma versão nova do estudo.'],
+  ['sim','S2','Acessos e distribuição dos pontos',
+   [['Quantos pontos cabem em cada robô e estação','Processo, passo 6'],['Pinças disponíveis','Biblioteca e fornecedores'],['Força máxima de cada pinça','Fabricante da pinça']],
+   [['Ponto sem acesso','1º redistribuir, 2º pinça nova, 3º troca de pinça'],['Robô não alcança','move o robô de 50 em 50 mm'],['Força da pinça nova não informada','segue e deixa um alerta para verificar depois'],['Pinça existente sem força suficiente','impede o ponto nessa pinça'],['Pontos não cabem na quantidade do Processo','devolve ao Processo com o motivo']],
+   'Distribuição dos pontos (quais pontos em cada robô) e nuvem de pinças (JT e CGR), para a Mecânica modelar o 3D.','A Simulação é quem define quais pontos vão em cada robô.']]],
+ ['D · Mecânica',[
+  ['mec','M1','Revisão do plano de fixação',
+   [['Plano de fixação: RPS, Datum, PCM, PLP ou pré-método','Cliente'],['Produto em 3D da estação','Processo, passo 1']],
+   [['Cliente não enviou o plano','o usuário monta a proposta com a ajuda de "Sugerir pontos" e envia para aprovação'],['Cliente ainda não respondeu','a modelagem começa, mas fica preliminar']],
+   'Pontos aprovados e lista de unidades a modelar.','Cliente revisa e aprova, ponto por ponto.'],
+  ['mec','M2','Montar unidades e 3D do dispositivo',
+   [['Pontos aprovados','M1'],['Nuvem de pinças','Simulação, S2'],['Padrão de construção (project book)','Cliente'],['Biblioteca de unidades','Programa']],
+   [['Nuvem de pinças não chegou','modela assim mesmo e marca tudo para conferência'],['Chegou nuvem nova','mostra as unidades que colidem com as pinças']],
+   'Dispositivo e garras em 3D, ligados ao 2D.',''],
+  ['mec','M3','Peso, listas e sequência',
+   [['3D do dispositivo e das garras','M2']],
+   [['Peso acima do robô escolhido','avisa o Processo para trocar o robô ou aliviar a garra']],
+   'Payload, lista de materiais, sequência de abertura e fechamento.','Payload volta ao Processo e à Simulação.'],
+  ['mec','M4','Revisões de projeto do dispositivo',
+   [['3D, listas e sequência','M2 e M3'],['Resultado da simulação','Simulação, segunda rodada']],
+   [['Cliente devolveu comentários','cada comentário vira uma pendência ligada à unidade'],['Simulação achou colisão','a unidade volta para ajuste']],
+   'Dispositivo liberado para detalhar e fabricar.','Cliente revisa o dispositivo em três etapas: DR01, DR02 e DR03.']]],
+ ['E · Simulação, segunda rodada',[
+  ['sim','S3','Validação',
+   [['3D de dispositivos e garras','Mecânica, M2'],['Payload','Mecânica, M3'],['Macro ciclo','Processo, passo 6']],
+   [['Folga menor que a tabela','registra na folha de problemas e avisa a Mecânica'],['Tempo do robô estoura o ciclo','avisa o Processo']],
+   'Folgas, trajetórias, áreas de interferência e segurança do robô conferidas.',''],
+  ['sim','S4','Sequência completa da estação',
+   [['Ciclograma','Processo, passo 9'],['Sequência de abertura e fechamento','Mecânica, M3']],
+   [['Sequência não bate com o ciclograma','avisa na hora o Processo ou a Mecânica'],['Dispositivo ou garra mudou','a sequência precisa ser validada de novo']],
+   'Vídeos e sequência validada com colisão ligada.','Só depois disso o dispositivo é liberado para fabricação.'],
+  ['sim','S5','Entregas da Simulação',
+   [['Tudo o que foi validado','S3 e S4']],
+   [['Entrega faltando','aparece na lista de conferência da etapa']],
+   'Pacote de entregas da Simulação.','Cliente revisa em três etapas: DR01, DR02 e DR03.']]],
+ ['F · Fechamento do Processo',[
+  ['proc','9','Ciclograma',
+   [['Tempos reais dos robôs','Simulação, S3'],['Sequência do dispositivo','Mecânica, M3']],
+   [['Tempos reais ainda não vieram','mantém o macro ciclo como referência'],['Não dá o ciclo','gera alerta e mostra as opções']],
+   'Ciclograma detalhado de cada estação.',''],
+  ['proc','10','Fundação',
+   [['Layout final','Passo 7'],['Cargas dos equipamentos','Fabricantes']],
+   [['Carga não informada','usa a do catálogo e marca para conferir']],
+   'Plano de fundação.',''],
+  ['proc','11','Grades, calhas e armários',
+   [['Layout final','Passo 7'],['Padrão de grade','Cliente'],['O que passa em cada calha','Passo 5']],
+   [['Vão que não fecha com módulo padrão','usa módulo especial só na sobra']],
+   'Planos de grade, calhas e armário, com as listas.',''],
+  ['proc','12','Folha de instrução e pacote final',
+   [['3D final','Mecânica e Simulação'],['Ciclograma','Passo 9']],
+   [['Imagem automática não ficou boa','o usuário troca a imagem']],
+   'Folhas de instrução, planos de pontos, cola e pinos, e a árvore do projeto.','Pacote entregue ao cliente.']]]
+];
+let nos=[];
+(function montaFluxo(){
+  const nome={proc:'Processo',sim:'Simulação',mec:'Mecânica'};
+  $('#fluxo').innerHTML=fases.map(f=>`<h2 class="fase">${f[0]}</h2><div class="fluxo">`+f[1].map((p,i)=>`
+    ${i?'<div class="liga"></div>':''}
+    <details class="no ${p[0]}"><summary><span class="num">${p[1]}</span><strong>${p[2]}</strong><span class="chip ${p[0]}">${nome[p[0]]}</span>${p[6]?'<span class="chip rev">Revisão</span>':''}</summary>
+      <div class="corpo">
+        <div><h4>Precisa receber</h4><ul>${p[3].map(e=>`<li>${e[0]} <small>· ${e[1]}</small></li>`).join('')}</ul></div>
+        <div class="falta"><h4>Se não receber</h4><ul>${p[4].map(e=>`<li>${e[0]}: <span>${e[1]}.</span></li>`).join('')}</ul></div>
+        <div><h4>Entrega</h4><p>${p[5]}</p>${p[6]?`<h4 style="margin-top:10px">Revisão</h4><p style="color:var(--roxo)">${p[6]}</p>`:''}</div>
+      </div></details>`).join('')+'</div>').join('');
+  nos=$$('#fluxo .no'); nos[0].open=true;
+})();
+let noAtual=-1;
+$('#fx-todos').onclick=e=>{const abrir=nos.some(n=>!n.open); nos.forEach(n=>n.open=abrir); e.currentTarget.textContent=abrir?'Fechar tudo':'Abrir tudo';};
+$('#fx-prox').onclick=()=>{
+  nos.forEach(n=>{n.open=false;n.classList.remove('ativo');});
+  noAtual=(noAtual+1)%nos.length; const n=nos[noAtual]; n.open=true; n.classList.add('ativo');
+  n.scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
+  $('#fx-prox').textContent=noAtual===nos.length-1?'Voltar ao início':'Próximo passo';
+};
+let cobre=[
+ ['Pontos de solda','Pinça com fresa, e a operação de soldar',true,''],
+ ['Cordão de cola','Pedestal ou aplicador, bomba de cola, e a operação de passar cola',true,''],
+ ['Pinos (tucker)','Pistola de pinos com alimentador, e a operação de aplicar',true,''],
+ ['Furação','Equipamento de furação, e a operação de furar',false,'Sem equipamento na ST30'],
+ ['Solda MIG','Tocha com fonte, e a operação de soldar',true,'']];
+function desenhaCob(){$('#cobertura').innerHTML=cobre.map(c=>`<div><b style="font-weight:600">${c[0]}</b><span>${c[1]}</span>${c[2]?'<span class="pilula ok">Coberto</span>':`<span class="pilula erro" data-tip="O produto tem este item, mas o processo não tem o equipamento ou a operação. Enquanto estiver assim, o processo não é liberado.">${c[3]}</span>`}</div>`).join('');}
+$('#cob-conf').onclick=()=>{desenhaCob(); const f=cobre.filter(c=>!c[2]).length; avisa(f?'Cobertura conferida: '+f+' item do produto sem equipamento no processo.':'Cobertura conferida: tudo o que o produto pede existe no processo.');};
+$('#cob-add').onclick=()=>{const f=cobre.find(c=>!c[2]); if(!f){avisa('Não falta nada.');return;} f[2]=true; desenhaCob(); avisa('Equipamento de furação incluído na ST30 e operação de furar incluída no macro ciclo. Confira a ocupação.');};
+desenhaCob();
+$('#revisoes').innerHTML=[
+ ['Produto novo do cliente','Registra a mudança, compara as superfícies no 3D e compara pontos de solda, cola e pinos. Depois roda a cobertura de novo','Processo'],
+ ['Plano de fixação novo','Reabre só os pontos que mudaram e pede nova aprovação','Mecânica'],
+ ['Nuvem de pinças nova','Mostra as unidades do dispositivo que passaram a colidir','Mecânica'],
+ ['Layout alterado','Confere cabos, mangueiras, grades e avisa a Simulação','Processo'],
+ ['Troca de número de estação','Atualiza todos os documentos e guarda o registro','Todos'],
+ ['Comentário do cliente em revisão','Vira pendência com dono e prazo, até ser fechada','Quem recebeu']
+].map(r=>`<div><b style="font-weight:600">${r[0]}</b><span>${r[1]}</span><span class="pilula neutro">${r[2]}</span></div>`).join('');
+
+/* ---------- Mecânica 1: revisão do plano de fixação ---------- */
+const leituras={
+ vw:[['H','Furo: recebe piloto (pino)'],['F maiúscula','Apoio e pisador'],['f minúscula','Apenas apoio'],['x y z','Direção que o ponto trava']],
+ st:[['Hp','Furo primário: piloto principal'],['Lp','Furo secundário: segundo piloto'],['S','Fixação: apoio e pisador']],
+ gm:[['Pino 4 dir.','Furo principal: trava em quatro direções'],['Pino 2 dir.','Furo secundário: trava em duas direções'],['Rest / Clamp','Apoio e pisador'],['Rest','Apenas apoio']]};
+const nomesFix={
+ vw:['RPS 1 Hxy','RPS 2 Hx','RPS 3 Fz','RPS 4 Fz','RPS 5 Fz','RPS 6 fz','RPS 7 fz','RPS 8 Fy'],
+ st:['Hp1','Lp1','S1','S2','S3','S4','S5','S6'],
+ gm:['A1 4-way','A2 2-way','B1 R/C','B2 R/C','B3 R/C','B4 Rest','B5 Rest','C1 R/C']};
+const fBase=['Furo primário · piloto','Furo secundário · piloto','Apoio e pisador','Apoio e pisador','Apoio e pisador','Apenas apoio','Apenas apoio','Apoio e pisador'];
+const funcoes={vw:fBase,gm:fBase,st:fBase.map(f=>f==='Apenas apoio'?'Apoio e pisador':f)};
+const sits={pen:'Sem revisão',ok:'OK',des:'Desconsiderar',apo:'Apenas apoio',add:'Adicionar',red:'Redefinir',alt:'Alt. coord.'};
+const base=[[95,125,1210,-640,820],[430,95,2105,-655,842],[70,255,1180,-610,455],[290,240,1760,-622,470],[460,205,2150,-648,512],[120,100,1265,-641,880],[300,80,1790,-650,905],[215,215,1560,-625,548]];
+let fix=[], fixSel=-1, docGerado=false, aprovado=false, fixReg=[];
+function carregaFix(){
+  const c=$('#fx-cliente').value;
+  fix=base.map((b,i)=>({nome:nomesFix[c][i],fun:funcoes[c][i],cx:b[0],cy:b[1],x:b[2],y:b[3],z:b[4],sit:'pen',com:'',novo:false}));
+  fixSel=-1; docGerado=false; aprovado=false; fixReg=[];
+  $('#fx-leitura').innerHTML=leituras[c].map(l=>`<div><code>${l[0]}</code><span>${l[1]}</span></div>`).join('');
+  desenhaFix();
+}
+function desenhaFix(){
+  $('#fx-marcs').innerHTML=fix.map((p,i)=>`<circle class="marc s-${p.sit} ${i===fixSel?'sel':''}" data-i="${i}" cx="${p.cx}" cy="${p.cy}" r="9"><title>${p.nome}</title></circle><text x="${p.cx+13}" y="${p.cy+4}" style="font-size:15px">${p.nome}</text>`).join('');
+  $('#tab-fix tbody').innerHTML=fix.map((p,i)=>`<tr data-i="${i}" class="${i===fixSel?'sel':''}"><td style="font-family:var(--f-dado);font-size:13px"><span class="s-${p.sit}">●</span> ${p.nome}</td><td>${p.fun}${p.novo?' <span class="exemplo" style="margin-left:4px">criado aqui</span>':''}</td><td class="num">${p.x} / ${p.y} / ${p.z}</td>
+    <td><select data-sit="${i}" aria-label="Situação do ponto ${p.nome}">${Object.keys(sits).map(k=>`<option value="${k}" ${k===p.sit?'selected':''}>${sits[k]}</option>`).join('')}</select></td>
+    <td><input type="text" class="coment" data-com="${i}" value="${p.com}" placeholder="${p.sit==='ok'||p.sit==='pen'?'':'obrigatório'}" aria-label="Comentário do ponto ${p.nome}"></td></tr>`).join('');
+  const cont={}; fix.forEach(p=>cont[p.sit]=(cont[p.sit]||0)+1);
+  $('#fx-cont').innerHTML=Object.keys(sits).filter(k=>cont[k]).map(k=>`<span class="pilula s-${k}" style="fill:none">${sits[k]}: ${cont[k]}</span>`).join('');
+  const p=fix[fixSel]; const d=$('#fx-det');
+  if(!p){d.className='vazio'; d.textContent='Clique em um ponto.';}
+  else{d.className='leitura'; d.innerHTML=`<div><code>Nome</code><span>${p.nome}</span></div><div><code>Função</code><span>${p.fun}</span></div><div><code>X Y Z</code><span style="font-family:var(--f-dado);font-size:13px">${p.x} / ${p.y} / ${p.z} mm</span></div><div><code>Origem</code><span>${p.novo?'Criado nesta revisão':'Plano do cliente'}</span></div><div><code>Situação</code><span class="s-${p.sit}">${sits[p.sit]}</span></div><div><code>Vai virar</code><span>${p.sit==='des'?'Nada. O ponto não é usado.':p.sit==='apo'||(p.fun==='Apenas apoio'&&p.sit!=='red')?'Unidade só de apoio':p.fun.includes('piloto')?'Unidade de piloto com pino retrátil':'Unidade de apoio, pisador e grampo'}</span></div>`;}
+  const pend=fix.filter(p=>p.sit==='pen').length, semCom=fix.filter(p=>!['ok','pen'].includes(p.sit)&&!p.com.trim()).length;
+  const ativos=fix.filter(p=>p.sit!=='des'&&p.sit!=='red'), pri=ativos.some(p=>p.fun.startsWith('Furo primário')), sec=ativos.some(p=>p.fun.startsWith('Furo secundário'));
+  const nAp=ativos.filter(p=>p.fun.includes('poio')).length, junta=fix.some(p=>p.sug);
+  const itens=[['Todos os pontos foram revisados',pend===0,pend+' sem revisão'],['Todo ponto alterado tem comentário',semCom===0,semCom+' sem comentário'],['A peça continua com furo primário e secundário',pri&&sec,'Falta piloto'],['Alerta: mínimo de 3 apoios no plano',nAp>=3,'Só '+nAp+' apoio(s)'],['Alerta: centro de gravidade dentro dos apoios',nAp>=4,'Peça pode tombar'],['Alerta: apoio perto dos pilotos e da solda',junta,'Junção sem apoio'],['Documento de retorno gerado',docGerado,'Falta gerar'],['Aprovação do cliente registrada',aprovado,'Aguardando cliente']];
+  $('#fx-check').innerHTML=itens.map(i=>`<div><span>${i[0]}</span>${i[1]?'<span class="pilula ok">Certo</span>':'<span class="pilula aviso">'+i[2]+'</span>'}</div>`).join('');
+  $('#fx-reg').innerHTML=fixReg.map(r=>'<span>'+r+'</span>').join('');
+  $('#fx-ver').value=aprovado?'F1 · aprovada pelo cliente':docGerado?'C2 · enviada ao cliente':'C1 · recebida do cliente';
+}
+const mudou=()=>{if(docGerado||aprovado){docGerado=false;aprovado=false;fixReg.unshift('Plano alterado depois do envio: nova versão de conceito, precisa gerar o documento de novo');}};
+$('#fx-cliente').onchange=carregaFix;
+$('#fx-marcs').addEventListener('click',e=>{const m=e.target.closest('.marc'); if(m){fixSel=+m.dataset.i; desenhaFix();}});
+$('#tab-fix').addEventListener('click',e=>{if(e.target.closest('select,input')) return; const tr=e.target.closest('tr[data-i]'); if(tr){fixSel=+tr.dataset.i; desenhaFix();}});
+$('#tab-fix').addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset.sit){const p=fix[+t.dataset.sit]; p.sit=t.value; fixSel=+t.dataset.sit; mudou(); desenhaFix(); if(!['ok','pen'].includes(p.sit)&&!p.com) avisa('Situação "'+sits[p.sit]+'" pede um comentário para o cliente.');}
+  if(t.dataset.com){fix[+t.dataset.com].com=t.value; mudou(); desenhaFix();}
+});
+$('#fx-okall').onclick=()=>{const n=fix.filter(p=>p.sit==='pen').length; fix.forEach(p=>{if(p.sit==='pen')p.sit='ok';}); desenhaFix(); avisa(n?n+' ponto(s) marcados como OK.':'Não há ponto sem revisão.');};
+$('#fx-add').onclick=()=>{fix.push({nome:'Novo '+(fix.filter(p=>p.novo).length+1),fun:'Apoio e pisador',cx:385,cy:150,x:2010.0,y:-647.0,z:705.0,sit:'add',com:'',novo:true}); fixSel=fix.length-1; mudou(); desenhaFix(); avisa('Ponto criado onde você clicou no CAD: 2010 / -647 / 705 mm, já arredondado para milímetro inteiro.');};
+$('#fx-sug').onclick=()=>{if(fix.some(p=>p.sug)){avisa('As quatro regras de apoio já estão atendidas. Nada a sugerir.');return;} fix.push({nome:'Sugerido 1',fun:'Apenas apoio',cx:375,cy:228,x:1955.0,y:-630.0,z:488.0,sit:'add',com:'Apoio perto da solda, na junção das peças',novo:true,sug:true}); fixSel=fix.length-1; mudou(); desenhaFix(); avisa('1 ponto sugerido: a junção das peças, perto da solda, estava sem apoio. Aceite ou remova.');};
+$('#fx-rm').onclick=()=>{const p=fix[fixSel]; if(!p){avisa('Selecione um ponto.');return;} if(!p.novo){avisa('Este ponto veio do cliente e não pode ser apagado. Use a situação "Desconsiderar".');return;} fix.splice(fixSel,1); fixSel=-1; mudou(); desenhaFix(); avisa('Ponto removido.');};
+$('#fx-doc').onclick=()=>{
+  if($$('#fx-check > div').slice(0,3).some(d=>!$('.pilula.ok',d))){avisa('Ainda não dá para gerar: resolva os três primeiros itens da checagem.');return;}
+  docGerado=true; aprovado=false; fixReg.unshift('Documento de retorno gerado · versão C2 · salvo na pasta do projeto'); desenhaFix(); avisa('Documento de retorno gerado no padrão do cliente e salvo na pasta do projeto.');
+};
+$('#fx-apr').onclick=()=>{if(!docGerado){avisa('Gere e envie o documento de retorno antes de registrar a aprovação.');return;} aprovado=true; fixReg.unshift('Aprovação do cliente registrada · C2 virou F1'); desenhaFix(); avisa('Aprovação registrada. O plano de fixação agora é a versão final F1.');};
+$('#fx-lib').onclick=()=>{
+  if(fix.some(p=>p.sit==='pen')){avisa('Revise todos os pontos antes de liberar.');return;}
+  const n=fix.filter(p=>p.sit!=='des').length;
+  avisa(aprovado?n+' unidades enviadas para a modelagem como finais.':n+' unidades enviadas para a modelagem como preliminares: falta a aprovação do cliente.');
+};
+carregaFix();
+/* ---------- M2: montar unidades ---------- */
+const unidades=[
+ {id:'U1',pts:['S1','S2'],inc:4,sent:1,torre:350,grampo:63,peso:3.1,dist:118,ang:105,
+  pecas:[['Torre','Comau cortada a maçarico · 350','VCCDE-00000J3194-S'],['Cantoneira','L 90x90 · 4 furos · passante+rosca','VCXXX0000105214'],['Calço','pacote 5 mm · 4 rasgos','ASH4N'],['Apoio','bruto L 70x70 · 20 mm','VCCDE-0000031029-S'],['Grampo','Tünkers V 63.1 · 105°','homologado'],['Braço','A40 · 118 mm','Tünkers'],['Calço','pacote 5 mm · 4 rasgos','ASH4N'],['Pisador','bruto barra 120 · 20 mm','VCCDE-00000J3212-S']]},
+ {id:'U2',pts:['S3'],inc:14,sent:2,torre:450,grampo:63,peso:3.8,dist:150,ang:105,
+  pecas:[['Torre','Comau cortada a maçarico · 450','VCCDE-00000J3196-S'],['Cantoneira','L 90x90 · 4 furos','VCXXX0000104771'],['Calço','pacote 5 mm · sentido Z','ASH4N'],['Cantoneira interm.','L 70x70 · 3 furos (2º sentido)','VCXXX0000105222'],['Calço','pacote 5 mm · sentido Y','ASH3N'],['Apoio','bruto L 90x90 · 20 mm','VCCDE-0000031030-S'],['Grampo','Tünkers V 63.1 · 105°','homologado'],['Braço','A40 · 150 mm','Tünkers'],['Calço','pacote 5 mm','ASH4N'],['Pisador','bruto L 70x70 · 20 mm','VCCDE-0000031029-S'],['Guia','guia do pisador (ângulo ≥ 10°)','construída']]},
+ {id:'U3',pts:['S4','S5','S6'],inc:2,sent:1,torre:300,grampo:63,peso:3.6,dist:160,ang:120,
+  pecas:[['Torre','Comau cortada a maçarico · 300','VCCDE-00000J3193-S'],['Cantoneira','larga 50 mm · 2 pinos + 4 M8','construída'],['Calço','pacote 5 mm','ASH4N'],['Apoio','bruto L 100x130 · 20 mm','VCCDE-0000050200-S'],['Grampo','Tünkers V 63.1 · 120° (exceção)','homologado'],['Braço','A40 · 160 mm','Tünkers'],['Calço','pacote 5 mm','ASH4N'],['Pisador','bruto T 50x100 · 20 mm','VCCDE-0000031033-S']]},
+ {id:'U4',pts:['Sugerido 1'],inc:0,sent:1,torre:760,grampo:63,peso:2.4,dist:100,ang:105,
+  pecas:[['Torre','especial · 760 mm · nervura parafusada','especial'],['Cantoneira','L 70x70 · 3 furos','VCXXX0000105222'],['Calço','pacote 5 mm','ASH3N'],['Apoio','só apoio · bruto barra 120','VCCDE-00000J3212-S'],['Batente','sem pisador em cima: não precisa','—']]}
+];
+const limTk={1:{40:2.2,50:4.5,63:6.0,80:8.0},2:{40:3.3,50:6.7,63:9.0,80:11.2}};
+let unSel=0;
+function momento(u){return u.peso*9.81*u.dist/1000;}
+function desenhaUn(){
+  $('#un-lista').innerHTML=unidades.map((u,i)=>{
+    const m=momento(u), ok=m<=limTk[1][u.grampo];
+    return `<div class="un ${i===unSel?'sel':''}" data-i="${i}" data-tip="Unidade ${u.id}: ${u.pts.length} ponto(s), inclinação do produto ${u.inc}°, ${u.sent} sentido(s) de ajuste, torre ${u.torre} mm.">
+      <h3>${u.id}<span class="pilula ${u.torre>700?'aviso':ok?'ok':'erro'}" style="font-size:11px">${u.torre>700?'Torre alta':ok?'Grampo OK':'Grampo reprovado'}</span></h3>
+      <span class="pts">${u.pts.join(' + ')}</span>
+      <small>${u.inc}° → ${u.sent} sentido${u.sent>1?'s':''} de ajuste · torre ${u.torre} mm · grampo ${u.pts.length>1?'leva '+u.pts.length+' pisadores':'1 pisador'}${u.ang!==105?' · '+u.ang+'° (exceção)':''}</small></div>`;}).join('');
+  const u=unidades[unSel]; $('#un-titulo').textContent='Unidade '+u.id+' · pontos '+u.pts.join(', ');
+  $('#un-pilha').innerHTML=u.pecas.map((p,i)=>`<div class="${p[3]?'troc':''}"><span class="n">${i+1}</span><span><b style="font-weight:600">${p[0]}</b> · ${p[1]}</span><select data-p="${i}" data-tip="Troca só esta peça. O programa adapta as vizinhas (furação, calços, altura) e refaz o cálculo do grampo."><option>${p[2]}</option><option>outra do catálogo…</option><option>peça especial</option></select></div>`).join('');
+  const m=momento(u), l1=limTk[1][u.grampo], l2=limTk[2][u.grampo];
+  $('#un-calc').innerHTML=`<span>Grampo</span><b>Tünkers tam. ${u.grampo}</b><span>Peso em movimento (braço + pisador + calços)</span><b>${u.peso.toFixed(1)} kg</b><span>Centro de gravidade ao eixo de giro</span><b>${u.dist} mm</b><span>Momento = peso × 9,81 × distância</span><b>${m.toFixed(2)} Nm</b><span>Limite, ciclo 1 s / 2 s</span><b>${l1} / ${l2} Nm</b><span>Resultado</span><b style="color:${m<=l1?'var(--ok)':m<=l2?'var(--aviso)':'var(--erro)'}">${m<=l1?'Aprovado':m<=l2?'Aprovado só com ciclo de 2 s':'Reprovado: encurtar braço ou subir tamanho'}</b>`;
+  $('#sk-torre').setAttribute('y',200-Math.min(140,u.torre/4)); $('#sk-torre').setAttribute('height',Math.min(140,u.torre/4));
+  $('#sk-grampo').style.display=u.pecas.some(p=>p[0]==='Grampo')?'':'none'; $('#sk-braco').style.display=$('#sk-grampo').style.display;
+}
+$('#un-lista').addEventListener('click',e=>{const c=e.target.closest('.un'); if(c){unSel=+c.dataset.i; desenhaUn();}});
+$('#un-pilha').addEventListener('change',e=>{const i=+e.target.dataset.p; const p=unidades[unSel].pecas[i]; p[3]=true; p[2]=e.target.value; desenhaUn(); avisa('Peça "'+p[0]+'" trocada. Furação, calços e cálculo do grampo refeitos; troca registrada.');});
+$('#un-refazer').onclick=()=>avisa('Unidade '+unidades[unSel].id+' refeita no CAD com vínculo ao produto. Conferências rodadas: veja M3.');
+$('#un-montar').onclick=()=>{desenhaUn(); setTimeout(()=>abre('conferir'),1200);};
+$('#un-ang').onchange=e=>{const a=parseInt(e.target.value); unidades.forEach(u=>{if(u.id!=='U3')u.ang=a;}); desenhaUn(); avisa('Ângulo padrão '+a+'° aplicado a todos os grampos. U3 continua como exceção.');};
+desenhaUn();
+
+/* ---------- M3: conferir ---------- */
+let alertas=[
+ {t:'trava',un:'U2',o:'Acesso de parafuso',p:'Parafuso M8 da cantoneira intermediária sem espaço para a chave Allen girar 60° (sobram 31 mm, mínimo 60).',s:'Inverter: rosca na torre e passante na cantoneira. Testado: libera o acesso.',btn:'Aplicar inversão'},
+ {t:'alerta',un:'U4',o:'Altura da torre',p:'Torre especial de 760 mm, acima do limite de 700 mm. Nervura parafusada já incluída.',s:'Subir a base do dispositivo em 100 mm ou aceitar com motivo.',btn:'Aceitar com motivo'},
+ {t:'alerta',un:'U3',o:'Ângulo do grampo',p:'Com o ângulo padrão de 105° o produto colide com o pisador na saída. Programa propôs 120°.',s:'Fica como exceção, com o motivo registrado.',btn:'Aceitar exceção'},
+ {t:'alerta',un:'todas',o:'Nuvem de pinças',p:'A Simulação ainda não entregou a nuvem de pinças desta estação.',s:'Unidades marcadas para conferência. Importe a nuvem quando chegar.',btn:''},
+ {t:'ok',un:'U1 a U4',o:'Cálculo do grampo',p:'Momento no braço dentro do limite da Tünkers em todas as unidades.',s:'',btn:''},
+ {t:'ok',un:'U1 a U4',o:'Face de contato a 25 mm da fixação',p:'Todos os apoios respeitam os 20 mm da cantoneira + 5 mm de folga.',s:'',btn:''},
+ {t:'ok',un:'U1 a U4',o:'Furos passantes',p:'Nenhum furo cego. Rosca útil ≥ 1,5 × diâmetro em todas as juntas.',s:'',btn:''},
+ {t:'ok',un:'U2',o:'Guia do pisador',p:'Inclinação de 14° (≥ 10°): guia acrescentada.',s:'',btn:''},
+ {t:'ok',un:'U1 a U4',o:'Distâncias mínimas',p:'Peças fixas ≥ 5 mm; unidades diferentes ≥ 10 mm; com movimento ≥ 10 mm.',s:'',btn:''},
+ {t:'ok',un:'U1 a U4',o:'Entrada e saída do produto',p:'Produto entra e sai em linha reta com os grampos abertos.',s:'',btn:''},
+ {t:'ok',un:'base',o:'Flecha da base',p:'Flecha parada de 0,4 mm, sem variação no ciclo: posição das unidades não muda.',s:'',btn:''},
+ {t:'ok',un:'base',o:'Furos da base',p:'Nenhum furo sobre parede de tubo ou solda. 6 furos de medição Ø10 a até 1000 mm.',s:'',btn:''}];
+function desenhaCf(){
+  const c={trava:0,alerta:0,ok:0}; alertas.forEach(a=>c[a.t]++);
+  $('#cf-cont').innerHTML=`<span class="pilula erro">Travas: ${c.trava}</span><span class="pilula aviso">Avisos: ${c.alerta}</span><span class="pilula ok">Em ordem: ${c.ok}</span>`;
+  $('#cf-lista').innerHTML=alertas.map((a,i)=>`<div class="alerta ${a.t}"><span class="tipo">${a.t==='trava'?'Trava':a.t==='alerta'?'Aviso':'OK'}</span><div><p><b style="font-weight:600">${a.un} · ${a.o}.</b> ${a.p}</p>${a.s?`<small>Proposta: ${a.s}</small>`:''}</div>${a.btn?`<button class="btn mini" data-a="${i}" data-tip="${a.t==='trava'?'Aplica a solução proposta no 3D e confere de novo.':'Registra o motivo e transforma este aviso em exceção aceita. Ele aparece na lista de exceções das saídas.'}">${a.btn}</button>`:'<span></span>'}</div>`).join('');
+}
+$('#cf-lista').addEventListener('click',e=>{const b=e.target.closest('[data-a]'); if(!b) return; const a=alertas[+b.dataset.a];
+  if(a.t==='trava'){a.t='ok'; a.p='Furação invertida (rosca na torre, passante na cantoneira). Acesso de 74 mm livres.'; a.s='';a.btn=''; avisa('Inversão aplicada no 3D da U2. Acesso de parafuso conferido: 74 mm livres.');}
+  else {a.t='ok'; a.p+=' Exceção aceita pelo usuário; motivo registrado.'; a.s='';a.btn=''; avisa('Exceção registrada com motivo. Entra na lista de exceções das saídas.');}
+  desenhaCf();});
+$('#cf-rodar').onclick=desenhaCf;
+$('#cf-nuvem-btn').onclick=()=>{const n=alertas.find(a=>a.o==='Nuvem de pinças'); if(n){n.t='ok'; n.p='Nuvem importada (versão C2 da Simulação). Nenhuma colisão com grampo aberto ou fechado.'; n.s='';} $('#cf-nuvem').className='pilula ok'; $('#cf-nuvem').textContent='Recebida · C2 · sem colisão'; desenhaCf(); avisa('Nuvem de pinças importada e conferida: nenhuma colisão nas 4 unidades.');};
+$('#cf-liberar').onclick=()=>{const t=alertas.filter(a=>a.t==='trava').length; if(t){avisa('Ainda há '+t+' trava. Resolva antes de liberar.');return;} avisa('Unidades liberadas para desenhos e listas. Abrindo M4.'); setTimeout(()=>abre('saidas'),900);};
+desenhaCf();
+
+/* ---------- M4: saídas ---------- */
+const saidas=[
+ ['Folha de montagem','Perspectiva com o produto, balões por posição e lista de fixadores.','14.3_Mecânica/ST10/Montagem'],
+ ['Vistas no zero carro','Grade de 200 em 200 mm com a posição de cada unidade.','14.3_Mecânica/ST10/Montagem'],
+ ['Detalhe das peças','4 por folha A0, 1:1, com linhas de grade, furação e quadro.','14.3_Mecânica/ST10/Detalhes'],
+ ['Contornos de corte','Bruto das peças fora de catálogo, 1:1, para oxicorte.','14.3_Mecânica/ST10/Corte'],
+ ['Lista de peças','Item, padrão de origem, bruto, material, tratamento; lado simétrico em coluna própria.','14.3_Mecânica/ST10/Listas'],
+ ['Folha de cálculo dos grampos','Peso, distância, momento e limite de cada grampo.','14.3_Mecânica/ST10/Cálculos'],
+ ['Pacote de cálculo da base','Geometria simplificada, massa e CG de cada unidade, casos de carga. Para o engenheiro assinar a ART.','14.3_Mecânica/ST10/Cálculos'],
+ ['Tabela de calços','Calço em X, Y e Z por ponto (shims book).','14.3_Mecânica/ST10/Listas'],
+ ['Lista de exceções','Alertas aceitos, com motivo, para a revisão do cliente.','14.3_Mecânica/ST10/Listas']];
+let feitas=new Set(), sdReg=[];
+function desenhaSd(){
+  $('#sd-lista').innerHTML=saidas.map((s,i)=>`<div class="saida ${feitas.has(i)?'feita':''}"><h3>${s[0]}</h3><small>${s[1]}</small><div class="barra" style="justify-content:space-between"><span class="pilula ${feitas.has(i)?'ok':'neutro'}" style="font-size:11px">${feitas.has(i)?'Gerada · C2':'Não gerada'}</span><button class="btn mini ${feitas.has(i)?'leve':''}" data-s="${i}" data-tip="Gera esta saída do 3D atual e salva em ${s[2]}, como versão C2.">${feitas.has(i)?'Gerar de novo':'Gerar'}</button></div></div>`).join('');
+  $('#sd-reg').innerHTML=sdReg.length?sdReg.map(r=>'<span>'+r+'</span>').join(''):'<span>Nenhuma saída gerada nesta versão.</span>';
+}
+$('#sd-lista').addEventListener('click',e=>{const b=e.target.closest('[data-s]'); if(!b) return; const i=+b.dataset.s; feitas.add(i); sdReg.unshift(saidas[i][0]+' · C2 · salva em '+saidas[i][2]); desenhaSd(); avisa(saidas[i][0]+' gerada e salva em '+saidas[i][2]+'.');});
+$('#sd-todas').onclick=()=>{saidas.forEach((s,i)=>{feitas.add(i); sdReg.unshift(s[0]+' · C2 · salva em '+s[2]);}); desenhaSd(); avisa('9 saídas geradas do 3D atual e salvas nas pastas do projeto, versão C2.');};
+desenhaSd();
+
+if(['#separacao','#fluxo','#fixacao','#unidades','#conferir','#saidas'].includes(location.hash)) abre(location.hash.slice(1));
+</script>
+
+</body></html>
